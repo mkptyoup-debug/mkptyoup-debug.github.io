@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "io.github.mkptyoup_debug.twa",
+    "sha256_cert_fingerprints": ["F7:5C:17:C4:19:A5:D6:60:1E:7D:DB:E5:F7:EA:48:AE:5C:C8:CA:0A:14:49:78:CD:3D:94:D5:94:A2:C6:E0:DD"]
+  }
+}]
