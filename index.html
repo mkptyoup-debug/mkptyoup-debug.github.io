@@ -1113,10 +1113,23 @@ button,.tab,.card,.menu-item,.suggest-item,.fbtn{touch-action:manipulation}
 .stk-mb.in.on{background:var(--success);border-color:var(--success);color:#fff}
 .stk-mb.low.on{background:var(--warning);border-color:var(--warning);color:#2A1D05}
 .stk-mb.out.on{background:var(--danger);border-color:var(--danger);color:#fff}
-.stk-qty{display:flex;align-items:center;border:1px solid var(--border-def);border-radius:9px;background:var(--surface-2);overflow:hidden}
-.stk-qty button{width:30px;height:34px;font-size:17px;font-weight:700;color:var(--text-1);background:none}
-.stk-qty span{min-width:28px;text-align:center;font-size:13px;font-weight:800;color:var(--text-1)}
 .stk-ib{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:9px;border:1px solid var(--border-def);background:var(--surface-2);color:var(--brand-2)}
+.stk-sum{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:11px 14px;margin-bottom:12px;border-radius:12px;background:var(--brand-dim);color:var(--brand-text);font-size:12.5px;font-weight:700}
+.stk-sum b{font-weight:800}
+.stk-seg2{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
+.stk-sb{display:flex;align-items:center;justify-content:center;gap:4px;min-height:38px;padding:4px 2px;border-radius:10px;border:1px solid var(--border-def);background:var(--surface-2);color:var(--text-2);font-size:12px;font-weight:700;transition:background-color .15s,color .15s,border-color .15s}
+.stk-sb .material-symbols-rounded{font-size:16px}
+.stk-sb:active{transform:scale(.96)}
+.stk-sb.in.on{background:var(--success);border-color:var(--success);color:#fff}
+.stk-sb.low.on{background:var(--warning);border-color:var(--warning);color:#2A1D05}
+.stk-sb.out.on{background:var(--danger);border-color:var(--danger);color:#fff}
+.stk-qrow{display:flex;align-items:center;gap:8px}
+.stk-qlbl{font-size:11.5px;font-weight:700;color:var(--text-3)}
+.stk-qty{display:flex;align-items:stretch;border:1px solid var(--border-def);border-radius:10px;background:var(--surface-2);overflow:hidden}
+.stk-qty button{width:36px;height:38px;border:0;border-radius:0;background:transparent;font-size:18px;font-weight:700;color:var(--brand-text)}
+.stk-qty input.stk-qi{width:54px;height:38px;min-height:0;margin:0;padding:0;border:0;border-left:1px solid var(--border-def);border-right:1px solid var(--border-def);border-radius:0;background:var(--surface-1);color:var(--text-1);text-align:center;font-size:15px;font-weight:800;outline:none;box-shadow:none}
+.stk-qty input.stk-qi:focus{background:var(--brand-dim)}
+.stk-row-ctl{justify-content:space-between}
 .stk-ib.del{color:var(--danger)}
 .stk-ib .material-symbols-rounded{font-size:18px}
 .stk-mb:active,.stk-ib:active,.stk-qty button:active{transform:scale(.92)}
@@ -3481,7 +3494,7 @@ var STK={d:{},loaded:false,filter:'order',warned:false,armed:{}};
 var STK_KEY='ucStock';
 var STK_T={
 en:{lbl:'My Shop',in:'In Stock',low:'Low',out:'Out',stIn:'In stock',stLow:'Low · in order list',stOut:'Out · in order list',stUnset:'Mark your stock',
-title:'My Shop Stock',tOrder:'To Order',tIn:'In Stock',tAll:'All',
+title:'My Shop Stock',qtyLbl:'Order qty',pcs:'pcs',tOrder:'To Order',tIn:'In Stock',tAll:'All',
 emptyOrder:'Nothing to order right now.',emptyOrderSub:'Tap Low or Out on any card and it will appear here.',
 emptyIn:'No group marked In Stock yet.',emptyAll:'You have not marked any group yet.',emptyAllSub:'Open any card and tap In Stock, Low or Out.',
 wa:'Send on WhatsApp',copy:'Copy list',received:'Stock received — mark all In Stock',receivedAsk:'Sure? Tap again to confirm',
@@ -3491,7 +3504,7 @@ copied:'Order list copied',noItems:'Order list is empty',recvDone:'All items mar
 head:'ORDER LIST',total:'Total',items:'items',more:'more',saveFail:'Could not save stock on this device',grp:'Group',
 foot:'Your stock is saved on this phone only.'},
 hi:{lbl:'मेरी दुकान',in:'स्टॉक में',low:'कम है',out:'नहीं है',stIn:'स्टॉक में है',stLow:'कम है · ऑर्डर लिस्ट में',stOut:'नहीं है · ऑर्डर लिस्ट में',stUnset:'अपना स्टॉक मार्क करें',
-title:'मेरी दुकान का स्टॉक',tOrder:'मंगवाना है',tIn:'स्टॉक में',tAll:'सभी',
+title:'मेरी दुकान का स्टॉक',qtyLbl:'ऑर्डर मात्रा',pcs:'पीस',tOrder:'मंगवाना है',tIn:'स्टॉक में',tAll:'सभी',
 emptyOrder:'अभी कुछ मंगवाना नहीं है।',emptyOrderSub:'किसी भी कार्ड पर कम है या नहीं है दबाएँ, वो यहाँ आ जाएगा।',
 emptyIn:'अभी कोई ग्रुप स्टॉक में मार्क नहीं है।',emptyAll:'आपने अभी कोई ग्रुप मार्क नहीं किया।',emptyAllSub:'कोई भी कार्ड खोलें और स्टॉक में / कम है / नहीं है दबाएँ।',
 wa:'WhatsApp पर भेजें',copy:'लिस्ट कॉपी करें',received:'माल आ गया — सब स्टॉक में करें',receivedAsk:'पक्का? दोबारा दबाएँ',
@@ -3618,20 +3631,27 @@ stkRenderList();
 }
 function stkFilter(f){haptic();STK.filter=f;stkRenderList();}
 function stkRowHtml(x){
-var e=x.e,no=stkGroupNo(x.tab,x.g);
+var e=x.e,no=stkGroupNo(x.tab,x.g),k=x.key;
 var title=(no?stkT('grp')+' '+no+' · ':'')+escHtml(x.name);
-var mini=[['in','check_circle'],['low','warning'],['out','cancel']].map(function(b){
-return '<button type="button" class="stk-mb '+b[0]+(e.s===b[0]?' on':'')+'" aria-label="'+stkT(b[0])+'" onclick="stkRowSet(\''+x.key+'\',\''+b[0]+'\')"><span class="material-symbols-rounded">'+b[1]+'</span></button>';
+var seg=[['in','check_circle'],['low','warning'],['out','cancel']].map(function(b){
+return '<button type="button" class="stk-sb '+b[0]+(e.s===b[0]?' on':'')+'" aria-pressed="'+(e.s===b[0])+'" onclick="stkRowSet(\''+k+'\',\''+b[0]+'\')"><span class="material-symbols-rounded">'+b[1]+'</span>'+stkT(b[0])+'</button>';
 }).join('');
-var qty=e.s!=='in'?'<div class="stk-qty"><button type="button" onclick="stkQty(\''+x.key+'\',-1)" aria-label="-">−</button><span>'+(e.q||1)+'</span><button type="button" onclick="stkQty(\''+x.key+'\',1)" aria-label="+">+</button></div>':'';
+var qty=e.s!=='in'?'<div class="stk-qrow"><span class="stk-qlbl">'+stkT('qtyLbl')+'</span><div class="stk-qty"><button type="button" onclick="stkQty(\''+k+'\',-1,this)" aria-label="-">−</button><input class="stk-qi" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" value="'+(e.q||1)+'" aria-label="Quantity" onfocus="this.select()" oninput="this.value=this.value.replace(/[^0-9]/g,\'\')" onchange="stkQtySet(\''+k+'\',this.value,this)" onkeydown="if(event.key===\'Enter\')this.blur()"><button type="button" onclick="stkQty(\''+k+'\',1,this)" aria-label="+">+</button></div></div>':'<span></span>';
 var ms=x.models;
 return '<div class="stk-row '+e.s+'">'+
 '<div class="stk-row-top"><div class="stk-row-name">'+title+'</div><span class="stk-chip">'+escHtml(stkTabName(x.tab))+'</span></div>'+
 (ms.length?'<div class="stk-row-models">'+escHtml(ms.slice(0,4).join(', '))+(ms.length>4?' +'+(ms.length-4):'')+'</div>':'')+
-'<div class="stk-row-ctl"><div class="stk-mini">'+mini+'</div>'+qty+'<span class="stk-sp"></span>'+
-'<button type="button" class="stk-ib" aria-label="'+stkT('open')+'" onclick="stkGo(\''+x.key+'\')"><span class="material-symbols-rounded">search</span></button>'+
-'<button type="button" class="stk-ib del" aria-label="'+stkT('remove')+'" onclick="stkRemove(\''+x.key+'\')"><span class="material-symbols-rounded">delete</span></button></div></div>';
+'<div class="stk-seg2">'+seg+'</div>'+
+'<div class="stk-row-ctl">'+qty+'<div class="stk-mini">'+
+'<button type="button" class="stk-ib" aria-label="'+stkT('open')+'" onclick="stkGo(\''+k+'\')"><span class="material-symbols-rounded">search</span></button>'+
+'<button type="button" class="stk-ib del" aria-label="'+stkT('remove')+'" onclick="stkRemove(\''+k+'\')"><span class="material-symbols-rounded">delete</span></button></div></div></div>';
 }
+function stkSumHtml(){
+var l=stkEntries().filter(function(x){return x.e.s!=='in';}),p=0;
+l.forEach(function(x){p+=x.e.q||1;});
+return '<span>'+l.length+' '+stkT('items')+'</span><span><b>'+p+'</b> '+stkT('pcs')+'</span>';
+}
+function stkSum(){var el=document.getElementById('stkSum');if(el)el.innerHTML=stkSumHtml();}
 function stkRenderList(){
 var body=document.getElementById('stkBody');if(!body)return;
 var all=stkEntries();
@@ -3648,6 +3668,7 @@ var t1=f==='order'?stkT('emptyOrder'):f==='in'?stkT('emptyIn'):stkT('emptyAll');
 var t2=f==='order'?stkT('emptyOrderSub'):f==='all'?stkT('emptyAllSub'):'';
 html+='<div class="stk-empty"><div class="stk-empty-ic"><span class="material-symbols-rounded">inventory_2</span></div><p class="stk-empty-t">'+t1+'</p>'+(t2?'<p class="stk-empty-s">'+t2+'</p>':'')+'</div>';
 }else{
+if(f==='order')html+='<div class="stk-sum" id="stkSum">'+stkSumHtml()+'</div>';
 html+='<div class="stk-list">'+list.map(stkRowHtml).join('')+'</div>';
 }
 if(f==='order'&&nOrder){
@@ -3665,9 +3686,16 @@ function stkRowSet(key,s){
 haptic();stkLoad();var e=STK.d[key];if(!e||e.s===s)return;
 e.s=s;e.t=Date.now();stkSave();stkSyncKey(key);stkBadge();stkRenderList();
 }
-function stkQty(key,d){
+function stkClamp(v){v=parseInt(v,10);if(!(v>0))v=1;return Math.min(9999,v);}
+function stkQty(key,d,btn){
 haptic();stkLoad();var e=STK.d[key];if(!e)return;
-e.q=Math.min(99,Math.max(1,(e.q||1)+d));stkSave();stkRenderList();
+e.q=stkClamp((e.q||1)+d);stkSave();
+var i=btn&&btn.parentNode?btn.parentNode.querySelector('input'):null;if(i)i.value=e.q;
+stkSum();
+}
+function stkQtySet(key,v,inp){
+stkLoad();var e=STK.d[key];if(!e)return;
+e.q=stkClamp(v);stkSave();if(inp)inp.value=e.q;stkSum();
 }
 function stkRemove(key){
 haptic();stkLoad();delete STK.d[key];stkSave();stkSyncKey(key);stkBadge();stkRenderList();
@@ -3719,14 +3747,18 @@ list.forEach(function(x){x.sec=sec(x);});
 list.sort(function(a,b){
 return (a.sec.o-b.sec.o)||String(a.name).localeCompare(String(b.name),undefined,{numeric:true,sensitivity:'base'});
 });
-var lines=['*ORDER LIST*','Date: '+d],lastH='',lastS='',pcs=0;
+var lines=['*ORDER REQUEST*','Date: '+d,'','Hello,','Kindly arrange the following items at the earliest.'],lastH='',lastS='',pcs=0,n=0;
 list.forEach(function(x){
 if(x.sec.h!==lastH){lines.push('');lines.push('*'+x.sec.h+'*');lastH=x.sec.h;lastS='';}
 if(x.sec.s&&x.sec.s!==lastS){lines.push('_'+x.sec.s+'_');lastS=x.sec.s;}
-var q=x.e.q||1;pcs+=q;
-lines.push(String(x.name).trim()+' - '+q+' pcs');
+var q=x.e.q||1;pcs+=q;n++;
+lines.push(n+'. '+String(x.name).trim()+' - '+q+' pcs');
 });
-lines.push('');lines.push('Total: '+list.length+' items, '+pcs+' pcs');
+lines.push('');lines.push('------------------------');
+lines.push('*Total Items:* '+list.length);
+lines.push('*Total Quantity:* '+pcs+' pcs');
+lines.push('------------------------');
+lines.push('');lines.push('Please confirm availability and delivery time.');lines.push('Thank you.');
 return {text:lines.join('\n'),count:list.length};
 }
 function stkSend(){
