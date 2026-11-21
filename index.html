@@ -4454,7 +4454,7 @@ var chips=document.querySelectorAll('.qs-tile');
 for(var i=0;i<chips.length;i++){
 var isActive=chips[i].getAttribute('data-cat')===key;
 chips[i].classList.toggle('active',isActive);
-if(isActive&&chips[i].scrollIntoView)chips[i].scrollIntoView({behavior:'smooth',inline:'nearest',block:'nearest'});
+if(isActive){var _sc=chips[i].parentNode;if(_sc&&_sc.scrollTo){var _cr=chips[i].getBoundingClientRect(),_sr=_sc.getBoundingClientRect();_sc.scrollTo({left:Math.max(0,_sc.scrollLeft+(_cr.left-_sr.left)-(_sc.clientWidth-_cr.width)/2),behavior:'smooth'});}}
 }
 }
 function findInPartsAcrossTypes(q){
@@ -7720,5 +7720,86 @@ setTimeout(function(){span.remove();},500);
 <button class="notif-btn-allow" onclick="acceptNotifPrompt()">Enable</button>
 </div>
 </div>
+<script>
+/* Universal Combo - hide category tiles (Glass / Back Cover / Display ...) on scroll down,
+   show them again on scroll up. Self-contained: injects its own CSS. */
+(function () {
+  'use strict';
+
+  var hdr = document.getElementById('header');
+  var wrap = hdr && hdr.querySelector('.qs-scroll-wrap');
+  if (!hdr || !wrap) return;
+
+  var ease = 'cubic-bezier(.32,.72,0,1)';
+  var css = document.createElement('style');
+  css.textContent =
+    'html{overflow-anchor:none}' +
+    '#header .header-top{transition:margin-bottom .34s ' + ease + '}' +
+    '#header .qs-scroll-wrap{overflow:hidden;will-change:max-height,opacity,transform;' +
+      'transition:max-height .34s ' + ease + ',opacity .24s ease,transform .34s ' + ease + '}' +
+    '#header.qs-hidden .qs-scroll-wrap{max-height:0!important;opacity:0;transform:translateY(-10px);pointer-events:none}' +
+    '#header.qs-hidden .header-top{margin-bottom:10px}' +
+    '@media (prefers-reduced-motion:reduce){' +
+      '#header .qs-scroll-wrap,#header .header-top{transition:none!important}}';
+  document.head.appendChild(css);
+
+  var hidden = false;
+  var lastY = window.pageYOffset || 0;
+  var acc = 0;
+  var lockUntil = 0;
+  var ticking = false;
+  var clearTimer = null;
+
+  function hide() {
+    if (hidden) return;
+    hidden = true;
+    clearTimeout(clearTimer);
+    wrap.style.maxHeight = wrap.offsetHeight + 'px';
+    void wrap.offsetHeight;
+    hdr.classList.add('qs-hidden');
+    lockUntil = Date.now() + 420;
+    acc = 0;
+  }
+
+  function show() {
+    if (!hidden) return;
+    hidden = false;
+    wrap.style.maxHeight = wrap.scrollHeight + 'px';
+    hdr.classList.remove('qs-hidden');
+    lockUntil = Date.now() + 420;
+    acc = 0;
+    clearTimeout(clearTimer);
+    clearTimer = setTimeout(function () {
+      if (!hidden) wrap.style.maxHeight = '';
+    }, 460);
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      ticking = false;
+      var y = Math.max(0, window.pageYOffset || document.documentElement.scrollTop || 0);
+      var dy = y - lastY;
+      lastY = y;
+      if (Date.now() < lockUntil) return;
+
+      if (y <= 50) { acc = 0; show(); return; }
+
+      if (dy * acc < 0) acc = 0;
+      acc += dy;
+
+      if (acc > 16 && y > 140) {
+        var room = document.documentElement.scrollHeight - window.innerHeight;
+        if (room > wrap.offsetHeight + 160) hide();
+      } else if (acc < -16) {
+        show();
+      }
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+})();
+</script>
 </body>
 </html>
