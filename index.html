@@ -1244,49 +1244,6 @@ Google se Login / Sign Up
 <div id="body" class="page-anim">
 <div id="loading" class="hide"><div class="spin"></div>Connecting...</div>
 <div id="mainContent" class="hide">
-<button id="aiAssistantBtn" onclick="openAIChat()" aria-label="Open AI Assistant">
-<span id="aiAssistantIcon">✨</span>
-<span id="aiAssistantText">Ask AI — Search by Photo or Chat</span>
-</button>
-<style>
-#aiAssistantBtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box;margin:0 0 10px 0;padding:12px 16px;border:none;border-radius:16px;background:linear-gradient(135deg,#8B5E1F,#C79A4B);color:#fff;font-weight:700;font-size:14px;box-shadow:0 4px 14px rgba(139,94,31,0.35);cursor:pointer;}
-#aiAssistantBtn:active{transform:scale(0.98);}
-#aiAssistantIcon{font-size:18px;}
-#aiChatOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;display:none;}
-#aiChatOverlay.show{display:block;}
-#aiChatSheet{position:fixed;left:0;right:0;bottom:0;max-height:85vh;background:#fff;border-radius:20px 20px 0 0;z-index:9999;display:none;flex-direction:column;box-shadow:0 -6px 24px rgba(0,0,0,0.25);}
-#aiChatSheet.show{display:flex;}
-#aiChatHeader{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #eee;}
-#aiChatHeader .title{font-weight:800;font-size:15px;color:#4a2f0f;display:flex;align-items:center;gap:8px;}
-#aiChatClose{background:none;border:none;font-size:20px;color:#888;cursor:pointer;padding:4px 8px;}
-#aiChatMessages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-height:200px;}
-.aiMsg{max-width:82%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.4;white-space:pre-wrap;}
-.aiMsg.user{align-self:flex-end;background:#8B5E1F;color:#fff;border-bottom-right-radius:4px;}
-.aiMsg.bot{align-self:flex-start;background:#f3ece0;color:#3a2a12;border-bottom-left-radius:4px;}
-.aiMsg img{max-width:160px;border-radius:10px;display:block;margin-top:6px;}
-#aiChatInputRow{display:flex;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid #eee;}
-#aiChatImgBtn,#aiChatSendBtn{background:#f3ece0;border:none;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;flex-shrink:0;}
-#aiChatSendBtn{background:#8B5E1F;color:#fff;}
-#aiChatTextInput{flex:1;border:1px solid #e2d8c8;border-radius:20px;padding:9px 14px;font-size:14px;outline:none;}
-#aiChatPreviewWrap{padding:0 16px;display:none;}
-#aiChatPreviewWrap.show{display:block;}
-#aiChatPreviewWrap img{max-width:90px;border-radius:10px;margin-bottom:6px;}
-</style>
-<div id="aiChatOverlay" onclick="closeAIChat()"></div>
-<div id="aiChatSheet">
-<div id="aiChatHeader">
-<div class="title">✨ AI Assistant</div>
-<button id="aiChatClose" onclick="closeAIChat()" aria-label="Close">✕</button>
-</div>
-<div id="aiChatMessages"></div>
-<div id="aiChatPreviewWrap"><img id="aiChatPreviewImg"/></div>
-<div id="aiChatInputRow">
-<button id="aiChatImgBtn" onclick="document.getElementById('aiChatImgInput').click()" title="Attach photo">📷</button>
-<input type="file" id="aiChatImgInput" accept="image/*" capture="environment" style="display:none" onchange="handleAIChatImage(this)"/>
-<input id="aiChatTextInput" placeholder="Ask about a model or send a photo..." onkeydown="if(event.key==='Enter')sendAIChatMessage()"/>
-<button id="aiChatSendBtn" onclick="sendAIChatMessage()" aria-label="Send">➤</button>
-</div>
-</div>
 <div id="searchWrap">
 <div id="searchBox">
 <span class="search-ic-glow"><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">search</span></span>
@@ -2436,7 +2393,7 @@ function categoryTeaserHtml(count,label){
 trackPaywallHit('lock',label);
 return '<div class="empty" style="padding-top:26px">'+
 '<div class="empty-ico"><span class="material-symbols-rounded">lock</span></div>'+
-'<p class="empty-t">'+count+' '+label+' result'+(count>1?'s':'')+' mile!</p>'+
+'<p class="empty-t">'+count+' '+label+' result'+(count>1?'s':'')+' found!</p>'+
 '<p class="empty-s" style="margin-bottom:14px">Unlock Premium to view this</p>'+
 '<button class="cbtn" style="max-width:220px;margin:0 auto" onclick="openUpgradeModal()">⭐ Unlock</button></div>';
 }
@@ -2533,9 +2490,9 @@ openModal(
 '<div class="pw-hero"><div class="pw-hero-ic"><span class="material-symbols-rounded">rocket_launch</span></div><div class="pw-hero-title">Speed up your business</div><div class="pw-hero-sub">Save more time, handle more customers</div></div>'+
 notLoggedInHtml+trialHtml+
 '<div class="pw-features">'+
-'<div class="pw-feat-row"><span class="pw-feat-ic c1 material-symbols-rounded">travel_explore</span><span><b>Unlimited Glass Search</b> — roz ki 10 free limit hatao</span></div>'+
-'<div class="pw-feat-row"><span class="pw-feat-ic c2 material-symbols-rounded">widgets</span><span><b>Back Cover + Spare Parts</b> — poora unlock (Display, Frame, Battery, sab)</span></div>'+
-'<div class="pw-feat-row"><span class="pw-feat-ic c3 material-symbols-rounded">file_download</span><span><b>Bulk Export</b> — poori list Excel/CSV mein ek click mein download</span></div>'+
+'<div class="pw-feat-row"><span class="pw-feat-ic c1 material-symbols-rounded">travel_explore</span><span><b>Unlimited Glass Search</b> — remove the daily limit of 10 free searches</span></div>'+
+'<div class="pw-feat-row"><span class="pw-feat-ic c2 material-symbols-rounded">widgets</span><span><b>Back Cover + Spare Parts</b> — full access (Display, Frame, Battery and more)</span></div>'+
+'<div class="pw-feat-row"><span class="pw-feat-ic c3 material-symbols-rounded">file_download</span><span><b>Bulk Export</b> — download the full list as Excel/CSV in one tap</span></div>'+
 '</div>'+
 '<div class="pw-plans">'+
 '<div class="pw-plan sel" id="planMonthly" onclick="selectPlan(\'monthly\')">'+
@@ -3162,8 +3119,8 @@ var email=document.getElementById('loginEmail').value.trim();
 var pass=document.getElementById('loginPass').value;
 var errEl=document.getElementById('loginErr');
 var btn=document.getElementById('loginBtn');
-if(!email||!pass){errEl.textContent='❌ Email aur password dono bharo';return;}
-if(currentLoginTab==='signup'&&pass.length<6){errEl.textContent='❌ Password kam se kam 6 characters ka hona chahiye';return;}
+if(!email||!pass){errEl.textContent='❌ Please enter both email and password';return;}
+if(currentLoginTab==='signup'&&pass.length<6){errEl.textContent='❌ Password must be at least 6 characters long';return;}
 btn.textContent='Please wait...';btn.disabled=true;errEl.textContent='';
 if(currentLoginTab==='signup'){
 var name=document.getElementById('loginName').value.trim()||email.split('@')[0];
@@ -3227,7 +3184,7 @@ window.location.href='mailto:M.k.p.tyoup@gmail.com?subject=Universal%20Combo%20S
 function openDeleteAccount(){
 closeMenu();
 if(!S.user||!auth||!auth.currentUser){showLogin();return;}
-if(isAdmin()){showToast('❌ Admin account yahan se delete nahi ho sakta',true);return;}
+if(isAdmin()){showToast('❌ The admin account cannot be deleted from here',true);return;}
 var u=auth.currentUser;
 var isG=(u.providerData||[]).some(function(p){return p.providerId==='google.com';});
 openModal('<div class="mhead"><span class="mtitle">🗑️ Delete My Account</span><button class="mclose" onclick="closeModal()" aria-label="Close">✕</button></div>'+
@@ -3259,7 +3216,7 @@ var errEl=document.getElementById('delErr'),btn=document.getElementById('delBtn'
 function reset(m){btn.disabled=false;btn.textContent='Delete permanently';errEl.textContent=m||'';}
 var re;
 if(passEl){
-if(!passEl.value){reset('❌ Password likho');return;}
+if(!passEl.value){reset('❌ Please enter your password');return;}
 re=u.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(u.email,passEl.value));
 }else{
 re=u.reauthenticateWithPopup(new firebase.auth.GoogleAuthProvider());
@@ -4501,7 +4458,7 @@ return scored.slice(0,6).map(function(x){return {m:x.m,count:x.count};});
 var SUGGEST_CAP=4;
 function suggestRowHtml(it,onPick,query){
 var m=it.m,count=it.count;
-var countHtml=count?'<span class="suggest-count">'+count+' combo'+(count>1?'s':'')+' mile</span>':'';
+var countHtml=count?'<span class="suggest-count">'+count+' combo'+(count>1?'s':'')+' found</span>':'';
 return '<div class="suggest-item" onmousedown="'+onPick+'(\''+m.replace(/'/g,"\\'")+'\')"><span class="suggest-ic material-symbols-rounded">search</span><span class="suggest-txt">'+hlText(m,query)+'</span>'+countHtml+'</div>';
 }
 function showSuggestions(boxId,items,onPick,query){
@@ -4529,105 +4486,6 @@ document.getElementById('searchInput').value=m;
 document.getElementById('searchSuggest').classList.add('hide');
 document.getElementById('searchClear').style.display='block';
 S.query=m;renderCards();
-}
-var GEMINI_API_KEY='AIzaSyDyY0xdotfgU7CxA6hCr1dnWosp8Uezutg';
-var aiChatHistory=[]; // {role:'user'|'model', parts:[...]}
-var aiChatPendingImage=null; // {base64, mimeType}
-function openAIChat(){
-document.getElementById('aiChatOverlay').classList.add('show');
-document.getElementById('aiChatSheet').classList.add('show');
-if(aiChatHistory.length===0){
-appendAIChatBubble('bot','Hello! 👋 Ask me anything about a phone model, or send a photo of the phone and I will identify the model.');
-}
-}
-function closeAIChat(){
-document.getElementById('aiChatOverlay').classList.remove('show');
-document.getElementById('aiChatSheet').classList.remove('show');
-}
-function appendAIChatBubble(role,text,imgDataUrl){
-var box=document.getElementById('aiChatMessages');
-var div=document.createElement('div');
-div.className='aiMsg '+(role==='user'?'user':'bot');
-var safeText=document.createElement('span');
-safeText.textContent=text;
-div.appendChild(safeText);
-if(imgDataUrl){
-var img=document.createElement('img');
-img.src=imgDataUrl;
-div.appendChild(img);
-}
-box.appendChild(div);
-box.scrollTop=box.scrollHeight;
-}
-function handleAIChatImage(inputEl){
-var file=inputEl.files&&inputEl.files[0];
-if(!file)return;
-var reader=new FileReader();
-reader.onload=function(){
-aiChatPendingImage={base64:reader.result.split(',')[1],mimeType:file.type||'image/jpeg',dataUrl:reader.result};
-var wrap=document.getElementById('aiChatPreviewWrap');
-document.getElementById('aiChatPreviewImg').src=reader.result;
-wrap.classList.add('show');
-};
-reader.readAsDataURL(file);
-inputEl.value='';
-}
-function sendAIChatMessage(){
-var input=document.getElementById('aiChatTextInput');
-var text=input.value.trim();
-var img=aiChatPendingImage;
-if(!text&&!img)return;
-if(!GEMINI_API_KEY||GEMINI_API_KEY==='YOUR_GEMINI_API_KEY_HERE'){
-appendAIChatBubble('bot','❌ AI is not set up — API key missing.');
-return;
-}
-appendAIChatBubble('user',text||'(Photo bheji)',img?img.dataUrl:null);
-input.value='';
-document.getElementById('aiChatPreviewWrap').classList.remove('show');
-aiChatPendingImage=null;
-var parts=[];
-if(text)parts.push({text:text});
-if(img)parts.push({inline_data:{mime_type:img.mimeType,data:img.base64}});
-if(!text&&img)parts.unshift({text:'Ye phone ki photo hai. Iska exact brand aur model number batao, aur chaho to short me batao ye kis kaam aata hai ya kaunse similar models hain.'});
-aiChatHistory.push({role:'user',parts:parts});
-appendAIChatBubble('bot','...'); // typing indicator
-var thinkingBubble=document.getElementById('aiChatMessages').lastElementChild;
-var url='https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent';
-fetch(url,{
-method:'POST',
-headers:{'Content-Type':'application/json','X-goog-api-key':GEMINI_API_KEY},
-body:JSON.stringify({
-contents:aiChatHistory,
-systemInstruction:{parts:[{text:'You are a helpful assistant for a mobile phone spare parts dealer. Give short, direct answers in simple Indian English. If a photo is sent, identify the phone\'s exact brand and model.'}]}
-})
-}).then(function(res){
-return res.json().then(function(data){return {ok:res.status,data:data};});
-})
-.then(function(result){
-var data=result.data;
-var replyText=data&&data.candidates&&data.candidates[0]&&data.candidates[0].content&&
-data.candidates[0].content.parts&&data.candidates[0].content.parts[0]&&
-data.candidates[0].content.parts[0].text;
-thinkingBubble.remove();
-if(!replyText){
-var errMsg=data&&data.error&&data.error.message;
-var blockReason=data&&data.promptFeedback&&data.promptFeedback.blockReason;
-if(errMsg){
-appendAIChatBubble('bot','❌ AI error: '+errMsg);
-}else if(blockReason){
-appendAIChatBubble('bot','❌ Blocked: '+blockReason);
-}else{
-appendAIChatBubble('bot','❌ Could not get a reply (status '+result.ok+'). Please try again.');
-}
-return;
-}
-appendAIChatBubble('bot',replyText.trim());
-aiChatHistory.push({role:'model',parts:[{text:replyText.trim()}]});
-})
-.catch(function(err){
-thinkingBubble.remove();
-appendAIChatBubble('bot','❌ Could not connect to AI: '+(err&&err.message?err.message:'please check your internet.'));
-});
 }
 function onSearch(){
 var v=document.getElementById('searchInput').value;
@@ -4860,7 +4718,7 @@ showToast('❌ Save failed, please try again: '+e.message,true);
 }
 function confirmDelete(id){
 openModal('<div class="mhead"><span class="mtitle">🗑️ Delete?</span><button class="mclose" onclick="closeModal()" aria-label="Close">✕</button></div>'+
-'<p style="color:var(--text-2);margin-bottom:20px;font-size:14px">Yeh glass permanently delete ho jayega.</p>'+
+'<p style="color:var(--text-2);margin-bottom:20px;font-size:14px">This glass group will be permanently deleted.</p>'+
 '<div class="brow"><button class="bcancel" onclick="closeModal()">Cancel</button>'+
 '<button class="bdel" onclick="doDelete(\''+id+'\')">Delete</button></div>');
 }
@@ -4890,7 +4748,7 @@ function copyCode(){navigator.clipboard.writeText(document.getElementById('codeT
 async function importCode(){
 try{
 var data=JSON.parse(document.getElementById('codeTA').value);
-if(!Array.isArray(data))throw new Error('Array chahiye');
+if(!Array.isArray(data))throw new Error('An array is required');
 if(!db){showToast('❌ Not connected',true);return;}
 if(!isAdmin()){showToast('❌ Only admin can import',true);return;}
 var total=data.length;
@@ -5654,7 +5512,7 @@ var g=(PF.data[typeKey]||[]).find(function(x){return x.id===groupId;});
 if(!t||!g)return;
 PF._imgCtx={typeKey:typeKey,groupId:groupId};
 openModal('<div class="mhead"><span class="mtitle">🖼️ '+escHtml(g.partName)+' Images</span><button class="mclose" onclick="closeModal()" aria-label="Close">✕</button></div>'+
-'<div class="fhint" style="margin-bottom:12px">Do photo tak add kar sakte ho — jaise "Front" aur "Back", ya do angle.</div>'+
+'<div class="fhint" style="margin-bottom:12px">You can add up to two photos, for example "Front" and "Back", or two angles.</div>'+
 pfImgSlotHtml(g,1)+
 pfImgSlotHtml(g,2)
 );
@@ -6317,7 +6175,7 @@ async function importPartsCode(typeKey){
 try{
 var t=PART_TYPES.find(function(x){return x.key===typeKey;});
 var data=JSON.parse(document.getElementById('pfCodeTA').value);
-if(!Array.isArray(data))throw new Error('Array chahiye');
+if(!Array.isArray(data))throw new Error('An array is required');
 if(!db||!t){showToast('❌ Not connected',true);return;}
 if(!isAdmin()){showToast('❌ Only admin can import',true);return;}
 var total=data.length;
@@ -6368,7 +6226,7 @@ openModal(partsFormHtml(typeKey,it));
 }
 function confirmPartsDelete(typeKey,id){
 openModal('<div class="mhead"><span class="mtitle">🗑️ Delete?</span><button class="mclose" onclick="closeModal()" aria-label="Close">✕</button></div>'+
-'<p style="color:var(--text-2);margin-bottom:20px;font-size:14px">Yeh part group delete ho jayega.</p>'+
+'<p style="color:var(--text-2);margin-bottom:20px;font-size:14px">This part group will be permanently deleted.</p>'+
 '<div class="brow"><button class="bcancel" onclick="closeModal()">Cancel</button>'+
 '<button class="bdel" onclick="doPartsDelete(\''+typeKey+'\',\''+id+'\')">Delete</button></div>');
 }
@@ -6399,8 +6257,8 @@ var t=PART_TYPES.find(function(x){return x.key===PF.currentCategory;})||PART_TYP
 if(!t)return;
 var n=(PF.data[t.key]||[]).length;
 openModal('<div class="mhead"><span class="mtitle">🗑️ Delete All '+t.label+'</span><button class="mclose" onclick="closeModal()" aria-label="Close">✕</button></div>'+
-'<p style="color:var(--text-2);margin-bottom:14px;font-size:14px">'+n+' part group delete ho jayenge. Ye wapas nahi aayenge.</p>'+
-'<div class="fgrp"><label class="flbl">Password</label><input class="finp" id="pf_delAllPass" type="password" autocomplete="off" placeholder="Password daalo"/></div>'+
+'<p style="color:var(--text-2);margin-bottom:14px;font-size:14px">'+n+' part groups will be deleted. This cannot be undone.</p>'+
+'<div class="fgrp"><label class="flbl">Password</label><input class="finp" id="pf_delAllPass" type="password" autocomplete="off" placeholder="Enter password"/></div>'+
 '<div class="brow"><button class="bcancel" onclick="closeModal()">Cancel</button>'+
 '<button class="bdel" id="pf_delAllBtn" onclick="doPartsDeleteAll(\''+t.key+'\')">Delete All</button></div>');
 }
@@ -6408,7 +6266,7 @@ function doPartsDeleteAll(typeKey){
 var t=PART_TYPES.find(function(x){return x.key===typeKey;});
 if(!t||!db||!isAdmin())return;
 var inp=document.getElementById('pf_delAllPass');
-if(!inp||inp.value!==PF_DELALL_PASS){showToast('❌ Galat password',true);return;}
+if(!inp||inp.value!==PF_DELALL_PASS){showToast('❌ Incorrect password',true);return;}
 var btn=document.getElementById('pf_delAllBtn');
 if(btn){btn.disabled=true;btn.textContent='Deleting...';}
 db.collection(t.col).get().then(function(snap){
@@ -7093,7 +6951,7 @@ tab:S.tab,
 userEmail:S.user?S.user.email:'Anonymous',
 userName:S.user?(S.user.displayName||S.user.email.split('@')[0]):'Anonymous'
 }).then(function(){
-closeModal();showToast('✅ Feedback bhej diya!');
+closeModal();showToast('✅ Feedback sent!');
 });
 }
 function openRequestsDashboard(){
@@ -7243,14 +7101,14 @@ var dup=null;
 snap.forEach(function(d){if((d.data().model||'').toUpperCase()===mu)dup=d;});
 if(dup){
 db.collection('update_requests').doc(dup.id).update({count:firebase.firestore.FieldValue.increment(1),date:new Date().toISOString()})
-.then(function(){closeModal();showToast('✅ Request bhej diya! (pehle se maujood, count badha)');});
+.then(function(){closeModal();showToast('✅ Request sent! (already requested, count increased)');});
 } else {
 db.collection('update_requests').add({
 type:type,model:model,details:details,count:1,status:'pending',
 date:new Date().toISOString(),
 userEmail:S.user?S.user.email:'Anonymous',
 userName:S.user?(S.user.displayName||S.user.email.split('@')[0]):'Anonymous'
-}).then(function(){closeModal();showToast('✅ Request bhej diya!');});
+}).then(function(){closeModal();showToast('✅ Request sent!');});
 }
 }).catch(function(e){showToast('❌ '+e.message,true);});
 }
@@ -7313,11 +7171,11 @@ Notification.requestPermission().then(function(p){if(p!=='granted'){showToast('�
 function testNotification(){
 closeMenu();
 if(!('Notification' in window)||!('serviceWorker' in navigator)){showToast('❌ This browser does not support notifications',true);return;}
-if(Notification.permission!=='granted'){showToast('❌ Pehle Notifications on karke Allow dabayein',true);return;}
+if(Notification.permission!=='granted'){showToast('❌ Please turn on Notifications and tap Allow first',true);return;}
 navigator.serviceWorker.ready.then(function(reg){
 return reg.showNotification('Universal Combo',{body:'Test notification ✅ If you can see this, your phone settings are correct',icon:'icon-192-1.png'});
 }).then(function(){
-showToast('✅ Test bhej diya — notification panel dekhein');
+showToast('✅ Test sent — check your notification panel');
 }).catch(function(e){showToast('❌ '+(e&&e.message?e.message:e),true);});
 }
 function registerForPush(silent){
@@ -7714,7 +7572,7 @@ setTimeout(function(){span.remove();},500);
 <div class="notif-sheet-handle"></div>
 <div class="notif-sheet-icon">🔔</div>
 <div class="notif-sheet-title">Stay Updated</div>
-<div class="notif-sheet-desc">Naye models, offers aur important updates ki notification paane ke liye notifications on karein.</div>
+<div class="notif-sheet-desc">Turn on notifications to get alerts about new models, offers and important updates.</div>
 <div class="notif-sheet-actions">
 <button class="notif-btn-skip" onclick="dismissNotifPrompt()">Not Now</button>
 <button class="notif-btn-allow" onclick="acceptNotifPrompt()">Enable</button>
