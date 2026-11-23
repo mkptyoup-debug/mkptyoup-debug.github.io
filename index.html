@@ -1100,11 +1100,6 @@ button,.tab,.card,.menu-item,.suggest-item,.fbtn{touch-action:manipulation}
 .stk-row-ctl{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
 .stk-sp{flex:1}
 .stk-mini{display:flex;gap:4px}
-.stk-mb{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:9px;border:1px solid var(--border-def);background:var(--surface-2);color:var(--text-3);transition:background-color .15s,color .15s,border-color .15s}
-.stk-mb .material-symbols-rounded{font-size:18px}
-.stk-mb.in.on{background:var(--success);border-color:var(--success);color:#fff}
-.stk-mb.low.on{background:var(--warning);border-color:var(--warning);color:#2A1D05}
-.stk-mb.out.on{background:var(--danger);border-color:var(--danger);color:#fff}
 .stk-ib{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:9px;border:1px solid var(--border-def);background:var(--surface-2);color:var(--brand-2)}
 .stk-sum{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:11px 14px;margin-bottom:12px;border-radius:12px;background:var(--brand-dim);color:var(--brand-text);font-size:12.5px;font-weight:700}
 .stk-sum b{font-weight:800}
@@ -1139,7 +1134,6 @@ button,.tab,.card,.menu-item,.suggest-item,.fbtn{touch-action:manipulation}
 #resultBanner.found{padding:10px 14px}
 #resultBanner.found .rb-query{display:none}
 .cname-sm{font-size:15px!important}
-.cn-k{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--brand-2);background:rgba(154,110,59,.12);border-radius:7px;padding:1px 7px;margin-right:6px;vertical-align:middle}
 .fb-q{font-size:12px;font-weight:700;color:var(--text-2);margin:2px 0 8px}
 #cardListViewport{padding-bottom:104px}
 #homeChips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:-2px 0 14px;padding:2px 1px}
@@ -1153,7 +1147,7 @@ button,.tab,.card,.menu-item,.suggest-item,.fbtn{touch-action:manipulation}
 .pf2-del{display:block;margin:14px auto 0;padding:8px 12px;background:none;border:0;color:var(--text-3);font-size:11.5px;font-weight:600;text-decoration:underline}
 .stk-ib.del{color:var(--danger)}
 .stk-ib .material-symbols-rounded{font-size:18px}
-.stk-mb:active,.stk-ib:active,.stk-qty button:active{transform:scale(.92)}
+.stk-ib:active,.stk-qty button:active{transform:scale(.92)}
 .stk-foot{display:flex;gap:8px;margin-top:16px}
 .stk-fbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:10px 8px;border-radius:12px;border:1px solid var(--border-def);background:var(--surface-1);color:var(--text-1);font-size:13px;font-weight:700;transition:background-color .18s,color .18s,transform .12s}
 .stk-fbtn .material-symbols-rounded{font-size:18px}
@@ -1299,6 +1293,7 @@ Google se Login / Sign Up
 <div class="toolbar hide" id="toolbarWrap">
 <button class="tbtn" onclick="openCodeModal()"><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">save</span> Data Code</button>
 <button class="tbtn" onclick="admCleanPreview()"><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">cleaning_services</span> Clean Names</button>
+<button class="tbtn" onclick="admNumberGroups()"><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">pin</span> Fix Group Numbers</button>
 </div>
 <button id="addBtn" class="hide" onclick="openAddModal()">＋ <span data-i18n="addbtn.glass">Add New Glass Group</span></button>
 <button id="bulkAddBtn" class="hide" onclick="openBulkModal()"><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">playlist_add</span> Bulk Add</button>
@@ -2190,7 +2185,10 @@ if(el&&PF_ICONS[k])el.innerHTML=PF_ICONS[k];
 });
 })();
 function isAdmin(){return S.role==='admin';}
-function getList(){
+function grpNo(g){if(g.no)return g.no;var i=getList().findIndex(function(x){return x.id===g.id;});return i+1;}
+function nextGrpNo(k){var l=(k==='flat'||k==='uv')?S.flat.concat(S.uv):(S[k]||[]),m=0,u=0;l.forEach(function(g){if(g.no>m)m=g.no;else if(!g.no)u=1;});return u?0:m+1;}
+function getList(){var l=_getList0();return l.some(function(g){return g.no;})?l.slice().sort(function(a,b){return(a.no||1e9)-(b.no||1e9);}):l;}
+function _getList0(){
 if(S.tab==='glass'){
 S.flat.forEach(function(g){g._type='flat';});
 S.uv.forEach(function(g){g._type='uv';});
@@ -4105,7 +4103,7 @@ var favTab=g._type||S.tab;
 var typeBadge=S.tab==='glass'?(g._type==='uv'?'<span class="bgp">◐ Curved Glass</span>':'<span class="bg">▭ Flat Glass</span>'):'';
 var sm=!isFuzzy&&hasSearch&&matched.length;
 var headHtml='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px'+(sm?';margin-top:14px':'')+'">'+
-'<div style="flex:1"><div class="cname'+(sm?' cname-sm':'')+'">'+(sm?'<span class="cn-k">Glass code</span>':'<span style="display:inline-block;font-size:10.5px;font-weight:800;color:var(--brand-2);background:rgba(154,110,59,.12);border-radius:7px;padding:1px 7px;margin-right:6px;vertical-align:middle">Group GRPNUM</span>'.replace('GRPNUM',idx+1))+'🛡️ '+escHtml(g.glassName)+'</div>'+
+'<div style="flex:1"><div class="cname'+(sm?' cname-sm':'')+'">'+('<span style="display:inline-block;font-size:10.5px;font-weight:800;color:var(--brand-2);background:rgba(154,110,59,.12);border-radius:7px;padding:1px 7px;margin-right:6px;vertical-align:middle">Group GRPNUM</span>'.replace('GRPNUM',grpNo(g)))+'🛡️ '+escHtml(g.glassName)+'</div>'+
 '<div class="cbadges">'+typeBadge+
 (isFuzzy?'<span class="bgy">🔎 Similar Match</span>':(sm?((!g.confidence||g.confidence==='100')?'<span class="bgg">✓ Verified</span>':''):(!g.confidence||g.confidence==='100'?'<span class="bgg">✓ Verified · '+mlist.length+' Models</span>':'<span class="bg">'+mlist.length+' Models</span>')))+
 ((g.confidence&&g.confidence!=='100')?confidenceBadge(g.confidence):'')+
@@ -4641,15 +4639,15 @@ var typeSel=document.getElementById('gBulkType');
 var targetKey=typeSel?typeSel.value:S.tab;
 var lines=document.getElementById('gBulkText').value.split('\n').map(function(l){return l.trim();}).filter(Boolean);
 if(!lines.length){showToast('❌ Please enter data!',true);return;}
-var batch=db.batch();var newDocs=[];
+var batch=db.batch();var newDocs=[];var _n=nextGrpNo(targetKey);
 lines.forEach(function(line){
 var parts=line.split('|').map(function(p){return p.trim();});
 var name=parts[0]||'';var models=splitModelsInput(parts[1]||'');
 var conf=(parts[2]||'100').trim();if(['100','75','check'].indexOf(conf)===-1)conf='100';
 if(!name||!models.length)return;
 var id=db.collection(COLLECTIONS[targetKey]).doc().id;
-var doc={id:id,glassName:name,models:models,confidence:conf,note:''};
-batch.set(db.collection(COLLECTIONS[targetKey]).doc(id),{glassName:name,models:models,confidence:conf,note:''});
+var doc={id:id,glassName:name,models:models,confidence:conf,note:''},dd={glassName:name,models:models,confidence:conf,note:''};if(_n){doc.no=dd.no=_n++;}
+batch.set(db.collection(COLLECTIONS[targetKey]).doc(id),dd);
 newDocs.push(doc);
 });
 if(!newDocs.length){showToast('❌ No valid lines found',true);return;}
@@ -4752,10 +4750,11 @@ var newDoc={id:id,glassName:name,models:models,confidence:confidence,note:note};
 var idx=S[targetKey].findIndex(function(x){return x.id===id;});
 var prevDoc=idx>=0?Object.assign({},S[targetKey][idx]):null;
 var savedEditId=S.editId;
+newDoc.no=(prevDoc&&prevDoc.no)||nextGrpNo(targetKey);
 if(idx>=0)S[targetKey][idx]=newDoc;else S[targetKey].push(newDoc);
 render();closeModal();showToast(isEdit?'✅ Updated!':'✅ Added!');S.editId=null;
 setSyncDot('syncing');
-db.collection(COLLECTIONS[targetKey]).doc(id).set({glassName:name,models:models,confidence:confidence,note:note}).then(function(){
+db.collection(COLLECTIONS[targetKey]).doc(id).set(Object.assign({glassName:name,models:models,confidence:confidence,note:note},newDoc.no?{no:newDoc.no}:{})).then(function(){
 logAdminAction((isEdit?'✏️ ':'✨ ')+glassTypeLabel(targetKey)+': '+name+(isEdit?' updated':' added'));
 var entry={msg:(isEdit?'✏️ ':'✨ ')+name+(isEdit?' updated':' added'),date:new Date().toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})};
 S.log=[entry].concat(S.log).slice(0,20);
@@ -4826,7 +4825,7 @@ var col=COLLECTIONS[targetKey];
 if(!col)return Promise.resolve({ok:false,err:'Unknown type: '+targetKey});
 touchedKeys[targetKey]=true;
 var docId=g.id||db.collection(col).doc().id;
-return withTimeout(db.collection(col).doc(docId).set({glassName:g.glassName,models:g.models,confidence:g.confidence||'100',note:g.note||''}))
+return withTimeout(db.collection(col).doc(docId).set(Object.assign({glassName:g.glassName,models:g.models,confidence:g.confidence||'100',note:g.note||''},g.no?{no:g.no}:{})))
 .then(function(){return{ok:true};})
 .catch(function(e){return{ok:false,err:e.message||String(e)};});
 }));
@@ -7765,6 +7764,31 @@ var _rc=renderCards;
 renderCards=function(){var r=_rc.apply(this,arguments);try{renderHomeChips();}catch(e){}return r;};
 try{renderHomeChips();}catch(e){}
 })();
+</script>
+<script>
+/* Fixed group numbers */
+window.admNumberGroups=function(){
+if(!isAdmin())return;
+var jobs=[];
+[['flat','uv'],['display'],['backcover']].forEach(function(ks){
+var items=[];ks.forEach(function(k){(S[k]||[]).forEach(function(g){items.push({k:k,g:g});});});
+var m=0;items.forEach(function(x){if(x.g.no>m)m=x.g.no;});
+items.slice().sort(function(a,b){return(a.g.no||1e9)-(b.g.no||1e9);}).forEach(function(x){if(!x.g.no)jobs.push({k:x.k,id:x.g.id,no:++m});});
+});
+if(!jobs.length){showToast('\u2705 Sab groups ka number pehle se fix hai');return;}
+window.__nojobs=jobs;
+openModal('<div class="mhead"><span class="mtitle">\uD83D\uDCCC Fix Group Numbers</span><button class="mclose" onclick="closeModal()" aria-label="Close">\u2715</button></div><p style="color:var(--text-2);font-size:13.5px;line-height:1.6"><b>'+jobs.length+'</b> groups ko permanent number milega (jaisa abhi list me dikhta hai wahi order). Uske baad search me bhi Group number wahi rahega, aur naya group hamesha neeche judega.</p><div class="brow"><button class="bcancel" onclick="closeModal()">Cancel</button><button class="bsave" onclick="admNumberApply()">Apply</button></div>');
+};
+window.admNumberApply=function(){
+var jobs=window.__nojobs;if(!jobs||!isAdmin())return;
+closeModal();setSyncDot('syncing');
+var keys={},chunks=[];
+jobs.forEach(function(j){var g=S[j.k].find(function(x){return x.id===j.id;});if(g){g.no=j.no;keys[j.k]=1;}});
+for(var i=0;i<jobs.length;i+=400)chunks.push(jobs.slice(i,i+400));
+Promise.all(chunks.map(function(ch){var b=db.batch();ch.forEach(function(j){b.update(db.collection(COLLECTIONS[j.k]).doc(j.id),{no:j.no});});return b.commit();})).then(function(){
+Object.keys(keys).forEach(bumpGlassVersion);render();setSyncDot('ok');logAdminAction('\uD83D\uDCCC Group numbers fixed: '+jobs.length);showToast('\u2705 Numbers fixed');
+}).catch(function(e){setSyncDot('err');showToast('\u274C Failed: '+e.message+' (app refresh karo)',true);});
+};
 </script>
 </body>
 </html>
