@@ -201,12 +201,12 @@ button{cursor:pointer}
 .tab.ad{background:linear-gradient(180deg,var(--surface-1),var(--bg));border-color:#C9A15E3d;border-bottom-color:var(--brand-2);color:var(--warning);font-weight:800}
 .qs-scroll{display:flex;gap:9px;margin-top:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;padding:8px 6px 12px}
 .qs-scroll::-webkit-scrollbar{display:none}
-.qs-tile{flex:0 0 auto;scroll-snap-align:start;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:68px;padding:11px 4px 9px;background:var(--surface-1);border:1px solid var(--border-def);border-radius:14px;color:var(--text-2);opacity:.85;transform:scale(.94);box-shadow:none;transition:background .25s ease,border-color .25s ease,color .25s ease,transform .25s cubic-bezier(.22,1,.36,1),opacity .25s ease,box-shadow .25s ease}
+.qs-tile{flex:0 0 auto;scroll-snap-align:start;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:60px;padding:8px 4px 7px;background:var(--surface-1);border:1px solid var(--border-def);border-radius:14px;color:var(--text-2);opacity:.85;transform:scale(.94);box-shadow:none;transition:background .25s ease,border-color .25s ease,color .25s ease,transform .25s cubic-bezier(.22,1,.36,1),opacity .25s ease,box-shadow .25s ease}
 .qs-tile:active{transform:scale(.90)}
-.qs-tile .qs-ic{font-size:18px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:var(--brand-dim);color:var(--brand-text);font-variation-settings:'FILL' 0,'wght' 500,'GRAD' 0,'opsz' 24;transition:background .25s ease,color .25s ease}
+.qs-tile .qs-ic{font-size:17px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:var(--brand-dim);color:var(--brand-text);font-variation-settings:'FILL' 0,'wght' 500,'GRAD' 0,'opsz' 24;transition:background .25s ease,color .25s ease}
 .qs-tile .qs-ic-svg svg{width:19px;height:19px}
 .qs-tile .qs-label{font-size:10px;font-weight:700;letter-spacing:0;white-space:nowrap;transition:color .25s ease}
-.qs-tile.active{opacity:1;transform:scale(1.06);border-color:var(--brand);background:linear-gradient(160deg,var(--brand),var(--brand-2));box-shadow:0 8px 20px rgba(184,138,69,.38),0 0 0 3px rgba(184,138,69,.16);z-index:1}
+.qs-tile.active{opacity:1;transform:scale(1.04);border-color:var(--brand);background:linear-gradient(160deg,var(--brand),var(--brand-2));box-shadow:0 8px 20px rgba(184,138,69,.38),0 0 0 3px rgba(184,138,69,.16);z-index:1}
 .qs-tile.active:active{transform:scale(1.0)}
 .qs-tile.active .qs-ic{background:rgba(255,255,255,.24);color:#fff;font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24}
 .qs-tile.active .qs-label{color:#fff;font-weight:800}
@@ -1132,6 +1132,20 @@ button,.tab,.card,.menu-item,.suggest-item,.fbtn{touch-action:manipulation}
 .stk-qty input.stk-qi{width:54px;height:38px;min-height:0;margin:0;padding:0;border:0;border-left:1px solid var(--border-def);border-right:1px solid var(--border-def);border-radius:0;background:var(--surface-1);color:var(--text-1);text-align:center;font-size:15px;font-weight:800;outline:none;box-shadow:none}
 .stk-qty input.stk-qi:focus{background:var(--brand-dim)}
 .stk-row-ctl{justify-content:space-between}
+.adm-wrap:has(#addBtn:not(.hide)){margin-bottom:14px}
+.adm-toggle{display:none;align-items:center;justify-content:space-between;width:100%;padding:11px 14px;background:var(--surface-1);border:1px solid var(--border-def);border-radius:12px;color:var(--brand-text);font-size:13px;font-weight:700}
+.adm-wrap:has(#addBtn:not(.hide)) .adm-toggle{display:flex}
+.adm-toggle>.material-symbols-rounded{transition:transform .3s}
+.adm-wrap.open .adm-toggle>.material-symbols-rounded{transform:rotate(180deg)}
+.adm-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.32,.72,0,1)}
+.adm-wrap.open .adm-body{grid-template-rows:1fr}
+.adm-in{overflow:hidden;min-height:0}
+.adm-wrap.open .adm-in{padding-top:12px}
+.adm-wrap:not(.open) .adm-in{visibility:hidden}
+.adm-in .toolbar{justify-content:flex-start;flex-wrap:wrap;margin-bottom:12px}
+.cln-box{max-height:46vh;overflow:auto;margin:10px 0;font-size:12.5px;line-height:1.5}
+.cln-row{padding:6px 0;border-bottom:1px solid var(--border-hair);word-break:break-word}
+.cln-row s{opacity:.6}
 .stk-ib.del{color:var(--danger)}
 .stk-ib .material-symbols-rounded{font-size:18px}
 .stk-mb:active,.stk-ib:active,.stk-qty button:active{transform:scale(.92)}
@@ -1275,11 +1289,14 @@ Google se Login / Sign Up
 </div>
 <div class="rb-query" id="rbQuery"></div>
 </div>
+<div class="adm-wrap" id="admWrap"><button type="button" class="adm-toggle" onclick="this.parentNode.classList.toggle('open')"><span><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">admin_panel_settings</span> Admin Tools</span><span class="material-symbols-rounded">expand_more</span></button><div class="adm-body"><div class="adm-in">
 <div class="toolbar hide" id="toolbarWrap">
 <button class="tbtn" onclick="openCodeModal()"><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">save</span> Data Code</button>
+<button class="tbtn" onclick="admCleanPreview()"><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">cleaning_services</span> Clean Names</button>
 </div>
 <button id="addBtn" class="hide" onclick="openAddModal()">＋ <span data-i18n="addbtn.glass">Add New Glass Group</span></button>
 <button id="bulkAddBtn" class="hide" onclick="openBulkModal()"><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">playlist_add</span> Bulk Add</button>
+</div></div></div>
 <div id="cardListViewport" style="overflow:hidden">
 <div id="cardList"></div>
 </div>
@@ -1510,7 +1527,7 @@ ei=(ei+1)%EX.length;
 var el=document.getElementById(id);
 if(!el||el.value||document.activeElement===el)return;
 var ph=el.getAttribute('placeholder')||'';
-if(!/\(e\.g\. [^)]*\)\s*$/.test(ph))return; // Hindi/other language me chhedna nahi
+if(!/\(e\.g\. [^)]*\)\s*$/.test(ph))return;
 el.classList.add('ph-out');
 setTimeout(function(){
 el.setAttribute('placeholder',ph.replace(/\(e\.g\. [^)]*\)\s*$/,'(e.g. '+EX[ei]+')'));
@@ -1522,7 +1539,7 @@ setInterval(rotate,3200);
 })();
 (function(){
 var M={'❌':'cancel|f err','✅':'check_circle|f ok','⚠':'warning|f warn','⏳':'hourglass_top','🗑':'delete','🛡':'shield|f','✏':'edit','✨':'auto_awesome|f gold','🔍':'search','🔎':'search','⭐':'star|f gold','💎':'workspace_premium|f gold','📱':'smartphone','📋':'content_copy','💡':'lightbulb|f gold','📥':'download','👥':'group','📢':'campaign','📣':'campaign','🔥':'local_fire_department|f','➕':'add','👤':'person','🔒':'lock','🎉':'celebration|f gold','✔':'check','✓':'check','⚡':'bolt|f gold','📤':'upload','📊':'bar_chart','❤':'favorite|f err','🔧':'build','🛠':'build','📲':'install_mobile','🔄':'sync','💳':'credit_card','📝':'edit_note','🖼':'image','🟢':'circle|f ok','📈':'trending_up','💬':'chat','📷':'photo_camera','🕐':'schedule','🕒':'schedule','🕘':'schedule','👆':'touch_app','🎁':'redeem','🎯':'target','🚫':'block','😴':'bedtime','💤':'bedtime','📅':'calendar_month','🗂':'folder','🔔':'notifications','🔑':'key','☰':'menu','➤':'send|f','📨':'mail','💾':'save','🖥':'desktop_windows','🔋':'battery_full','🚪':'door_front','🔌':'power','🔘':'radio_button_checked','🎤':'mic','👋':'waving_hand','🧩':'extension','🙈':'visibility_off','👁':'visibility','⬆':'arrow_upward','⬇':'arrow_downward','🧠':'psychology','🚧':'construction','🏷':'sell','🏆':'emoji_events','📡':'sensors','✕':'close'};
-var keys=Object.keys(M).join('|'); // alternation (astral emoji ke liye character-class galat hota)
+var keys=Object.keys(M).join('|');
 var RE=new RegExp('('+keys+')\\uFE0F?|\\uFE0F','g');
 var TEST=new RegExp(keys+'|\\uFE0F');
 var SKIP='SCRIPT,STYLE,TEXTAREA,INPUT,SELECT,NOSCRIPT,CODE,PRE';
@@ -2069,7 +2086,7 @@ var PART_TYPES=[
 {key:'fingerprint',label:'Fingerprint',icon:'👆',col:'parts_fingerprint',color:'#6E7A8C'}
 ];
 var PF={data:{},query:'',editKey:null,editId:null,loaded:false,ready:false,activeIdx:0,tabsInit:false,currentCategory:PART_TYPES[0].key};
-var GQ=''; // Global shared search text — glass/backcover aur sabhi spare-parts
+var GQ='';
 var CAT_ORDER=['glass','backcover'].concat(PART_TYPES.map(function(t){return t.key;}));
 function syncCurrentCategory(){
 PF.currentCategory=PART_TYPES[PF.activeIdx].key;
@@ -2379,7 +2396,7 @@ return Math.max(0,GLASS_FREE_SEARCHES-getGlassSearchUsage().count);
 }
 function registerGlassSearch(q){
 if(isAdmin()||isPremiumActive())return true;
-if(q===lastCountedGlassQuery)return true; // same query dobara — dobara mat gino
+if(q===lastCountedGlassQuery)return true;
 var u=getGlassSearchUsage();
 if(u.count>=GLASS_FREE_SEARCHES)return false;
 u.count++;lsSetJSON('glassSearchUsage',u);
@@ -2529,9 +2546,9 @@ document.getElementById('planMonthly').classList.toggle('sel',p==='monthly');
 document.getElementById('planYearly').classList.toggle('sel',p==='yearly');
 }
 var RAZORPAY_WORKER_URL='https://universal-combo-payments.m-k-p-tyoup.workers.dev';
-var RAZORPAY_KEY_ID='rzp_live_THoq3uA2byE3uT'; // LIVE key — real payments hongi ab
-var TESTING_MODE=false; // true for testing (₹1 charge). Set to false at launch.
-var NOTIFY_WORKER_URL='https://notify-worker.m-k-p-tyoup.workers.dev'; // ⚠️ deploy notify-worker.js aur yahan uska actual URL daalo
+var RAZORPAY_KEY_ID='rzp_live_THoq3uA2byE3uT';
+var TESTING_MODE=false;
+var NOTIFY_WORKER_URL='https://notify-worker.m-k-p-tyoup.workers.dev';
 function showDebugBox(msg){
 var old=document.getElementById('debugBoxX');
 if(old){
@@ -2727,7 +2744,7 @@ logSearchActivity(query.trim(),cat);
 }
 function trackNotFoundSearch(query,source){
 if(!db||!query||query.trim().length<2)return;
-var key=normStr(query).replace(/ /g,'_')||query.trim().toUpperCase(); // Moto G54 / moto g 54 / MOTOROLA G54 = ek hi entry
+var key=normStr(query).replace(/ /g,'_')||query.trim().toUpperCase();
 var brand=detectSearchBrand(key.replace(/_/g,' '));
 var docUpdate={
 query:query.trim(),
@@ -2901,11 +2918,11 @@ var col=collectionForTab(tabKey);
 if(!col)return;
 var mkey=tabKey+':'+groupId;
 var widget=document.querySelector('[data-fb="'+mkey+'"]');
-if(widget)widget.querySelectorAll('.fbtn.helpful,.fbtn.not-helpful').forEach(function(b){b.disabled=true;}); // loading state (comment button free rehta hai) — dobara tap na ho jab tak save na ho
+if(widget)widget.querySelectorAll('.fbtn.helpful,.fbtn.not-helpful').forEach(function(b){b.disabled=true;});
 var voteRef=db.collection('votes').doc(uid+'_'+tabKey+'_'+groupId);
 var groupRef=db.collection(col).doc(groupId);
 var prevVote=S.myVotes[mkey]||null;
-var newVote=(prevVote===voteType)?null:voteType; // dobara same button dabao to vote hat jaata hai
+var newVote=(prevVote===voteType)?null:voteType;
 haptic();
 db.runTransaction(function(tx){
 return tx.get(groupRef).then(function(gdoc){
@@ -2925,7 +2942,7 @@ return{likeCount:likeCount,dislikeCount:dislikeCount};
 if(newVote)S.myVotes[mkey]=newVote;else delete S.myVotes[mkey];
 var g=findGroupObj(tabKey,groupId);
 if(g){g.likeCount=res.likeCount;g.dislikeCount=res.dislikeCount;}
-bumpVersionForTab(tabKey); // background sync so other devices see updated counts
+bumpVersionForTab(tabKey);
 updateFeedbackWidget(tabKey,groupId,res.likeCount,res.dislikeCount,newVote);
 if(newVote==='dislike')setTimeout(function(){showDislikeReason(tabKey,groupId);},350);
 }).catch(function(){
@@ -2977,7 +2994,7 @@ break;
 }
 t.innerHTML='<span class="toast-ic material-symbols-rounded">'+ic+'</span><span class="toast-txt">'+escHtml(text)+'</span>';
 clearTimeout(toastTimer);clearTimeout(window._toastOutTimer);
-t.className='';void t.offsetWidth; // animation dobara shuru ho (island pop + progress bar)
+t.className='';void t.offsetWidth;
 var ms=Math.min(4200,Math.max(2200,1400+text.length*35));
 t.style.setProperty('--toast-ms',ms+'ms');
 t.className='show '+cls;
@@ -3145,7 +3162,7 @@ if(unErr){errEl.textContent='❌ '+unErr;btn.textContent='Create Account';btn.di
 auth.createUserWithEmailAndPassword(email,pass)
 .then(function(cred){
 return cred.user.updateProfile({displayName:name}).then(function(){
-return typedName?cmtStoreName(cred.user.uid,typedName).catch(function(){}):null; // fail ho to baad me popup poochega
+return typedName?cmtStoreName(cred.user.uid,typedName).catch(function(){}):null;
 });
 })
 .then(function(){
@@ -3612,7 +3629,7 @@ if(!g){
 var loaded=p.tab.indexOf('pf_')===0
 ?!!(PF.loaded&&PF.data&&PF.data[p.tab.slice(3)]&&PF.data[p.tab.slice(3)].length)
 :!!(S[p.tab]&&S[p.tab].length);
-if(loaded){delete STK.d[key];changed=true;return;} // group delete ho chuka hai
+if(loaded){delete STK.d[key];changed=true;return;}
 }
 out.push({key:key,tab:p.tab,id:p.id,e:e,g:g,
 name:g?stkNameOf(g):(e.n||'—'),
@@ -4127,18 +4144,18 @@ var voiceRecognition=null;
 var voiceListeningBtnId=null;
 var voiceSilenceTimer=null;
 var voiceSessionTimer=null;
-var voiceAccumulated='';       // ab tak ka poora final transcript (restarts ke aar-paar bhi bacha rehta hai)
-var voiceIntentionalStop=false; // true = humne khud rok diya (silence/manual), false = browser ne beech me tod diya
-var VOICE_SILENCE_MS=3500;      // 3.5 second chup rehne par hi result final maana jayega — zyada patience
-var VOICE_MAX_SESSION_MS=45000; // safety cap — mic hamesha ke liye khula na rahe
+var voiceAccumulated='';
+var voiceIntentionalStop=false;
+var VOICE_SILENCE_MS=3500;
+var VOICE_MAX_SESSION_MS=45000;
 function getVoiceRecognition(){
 var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 if(!SR)return null;
 var rec=new SR();
-rec.continuous=true;        // pehle false tha — beech me hi kat jaata tha
+rec.continuous=true;
 rec.interimResults=true;
-rec.lang='en-IN';           // model numbers English/Roman me hi bole jaate hain
-rec.maxAlternatives=4; // ek se zyada option mangwao, taaki known models se match karke sahi wala choose ho sake
+rec.lang='en-IN';
+rec.maxAlternatives=4;
 return rec;
 }
 var NUMBER_WORDS={
@@ -4215,7 +4232,7 @@ cleaned=cleaned.replace(re,' ');
 });
 cleaned=cleaned.replace(/\bdouble\s+(\w)/gi,'$1$1');
 cleaned=cleaned.replace(/\btriple\s+(\w)/gi,'$1$1$1');
-cleaned=correctBrandNames(cleaned);       // wevo/opo/real me jaisi galtiyan sahi brand mein badlo
+cleaned=correctBrandNames(cleaned);
 cleaned=convertSpokenNumbers(cleaned);     // "fifty three" jaisa bola gaya word ko "53" banao
 cleaned=cleaned.replace(/\b([A-Za-z])\s+(\d+)/g,'$1$2'); // "Y 20" -> "Y20" (letter+number jodo)
 cleaned=cleaned.replace(/\s+/g,' ').trim();
@@ -4231,7 +4248,7 @@ for(var len=Math.min(4,Math.floor((words.length-i)/2));len>=1;len--){
 var a=words.slice(i,i+len).join(' ').toLowerCase();
 var b=words.slice(i+len,i+2*len).join(' ').toLowerCase();
 if(a&&a===b){
-words.splice(i+len,len); // duplicate hissa hata do, pehla wala rakho
+words.splice(i+len,len);
 collapsed=true;
 break;
 }
@@ -4277,11 +4294,11 @@ if(!cand)continue;
 for(var j=0;j<pool.length;j++){
 var poolClean=pool[j].toUpperCase().replace(/[^A-Z0-9]/g,'');
 if(poolClean.indexOf(cand)>=0||cand.indexOf(poolClean)>=0){
-return resultItem[i].transcript; // known model se match mila — yahi sahi hai
+return resultItem[i].transcript;
 }
 }
 }
-return resultItem[0].transcript; // koi match nahi mila to default best-confidence answer
+return resultItem[0].transcript;
 }
 function startVoiceSearch(inputId,triggerFn){
 var btnId=inputId==='searchInput'?'voiceBtn':'partsVoiceBtn';
@@ -4305,7 +4322,7 @@ var gotAnySpeech=false;
 var noSpeechRetries=0;
 var voiceSessionDeadline=Date.now()+VOICE_MAX_SESSION_MS;
 var lastInterim='';       // jo abhi tak "final" nahi hua par sunayi de raha hai (aakhri adhoora word)
-var lastFinalIndex=-1;    // duplicate final results se bachne ke liye (kabhi kabhi engine wahi result dobara bhejta hai)
+var lastFinalIndex=-1;
 function resetSilenceTimer(){
 clearTimeout(voiceSilenceTimer);
 voiceSilenceTimer=setTimeout(function(){
@@ -4351,14 +4368,14 @@ interim+=event.results[i][0].transcript;
 }
 lastInterim=interim;
 updateInputFromBuffer(interim);
-resetSilenceTimer(); // jab tak bol rahe ho, 1.5s ka timer baar baar reset hota rahega
+resetSilenceTimer();
 };
 rec.onerror=function(event){
 clearTimeout(voiceSilenceTimer);
 if(event.error==='no-speech'){
 if(gotAnySpeech||noSpeechRetries<2){
 noSpeechRetries++;
-return; // onend handle karega restart
+return;
 }
 voiceIntentionalStop=true;
 showToast('❌ Did not catch that, please try again',true);
@@ -4369,7 +4386,7 @@ voiceIntentionalStop=true;
 showToast('❌ Mic permission required',true);
 return;
 }
-if(event.error==='aborted'){return;} // manual stop se aata hai, ignore karo
+if(event.error==='aborted'){return;}
 if(!gotAnySpeech){
 voiceIntentionalStop=true;
 showToast('❌ Voice search me error aaya',true);
@@ -4433,7 +4450,7 @@ PF.query=GQ;
 var psInput=document.getElementById('partsSearchInput');
 if(psInput)psInput.value=GQ;
 if(PF.tabsInit)switchPartsTab(idx);
-else PF.activeIdx=idx; // tabs abhi init nahi huye — initPartsTabs() init hote hi is idx se khulega
+else PF.activeIdx=idx;
 updateCatBarActive(key);
 renderPartsCards();
 }
@@ -4568,7 +4585,7 @@ var input=document.getElementById('searchInput');
 if(input.value.trim())return;
 var h=getSearchHistory().filter(function(x,i,arr){
 var xl=x.toLowerCase();
-return !arr.some(function(y,j){return j<i&&y.toLowerCase().startsWith(xl);}); // purane ek-ek letter wale entries chhupao
+return !arr.some(function(y,j){return j<i&&y.toLowerCase().startsWith(xl);});
 });
 var box=document.getElementById('searchSuggest');
 if(!h.length){box.classList.add('hide');box.innerHTML='';return;}
@@ -4728,7 +4745,7 @@ function proceedSaveGlass(name,models,confidence,note,targetKey,isEdit){
 var id=S.editId||db.collection(COLLECTIONS[targetKey]).doc().id;
 var newDoc={id:id,glassName:name,models:models,confidence:confidence,note:note};
 var idx=S[targetKey].findIndex(function(x){return x.id===id;});
-var prevDoc=idx>=0?Object.assign({},S[targetKey][idx]):null; // fail hone par wapas lagane ke liye
+var prevDoc=idx>=0?Object.assign({},S[targetKey][idx]):null;
 var savedEditId=S.editId;
 if(idx>=0)S[targetKey][idx]=newDoc;else S[targetKey].push(newDoc);
 render();closeModal();showToast(isEdit?'✅ Updated!':'✅ Added!');S.editId=null;
@@ -5177,7 +5194,7 @@ function renderUVer(){
 var wrap=document.getElementById('uVerWrap');
 var btn=document.getElementById('uVerAddBtn');
 if(btn)btn.classList.toggle('hide',!isAdmin());
-var list=(U.changelog||[]).slice(0,5); // latest versions only
+var list=(U.changelog||[]).slice(0,5);
 if(!list.length){
 wrap.innerHTML='<div class="uempty">'+(isAdmin()?'Tap the + button below to add a version':'No version history yet')+'</div>';
 return;
@@ -5211,7 +5228,7 @@ v.version=version;v.notes=notes;
 } else {
 U.changelog.unshift({id:'v'+Date.now(),version:version,notes:notes,date:dateStr});
 }
-U.changelog=U.changelog.slice(0,20); // storage stays tiny; UI only shows latest 5 anyway
+U.changelog=U.changelog.slice(0,20);
 db.collection('meta').doc('changelog').set({items:U.changelog}).then(function(){
 showToast('✅ Saved');closeModal();renderUVer();
 },function(){showToast('❌ Save failed',true);});
@@ -5338,7 +5355,7 @@ setTimeout(loadPartsData,4000);
 }
 function bumpPartsVersion(typeKey){
 var v={};v[typeKey]=Date.now();
-PF_matchCache.q=null;PF_matchCache.byType={}; // stale search-result cache clear karo
+PF_matchCache.q=null;PF_matchCache.byType={};
 db.collection('meta').doc('partsVersion').set(v,{merge:true}).catch(function(e){
 console.error('bumpPartsVersion write failed:',e);
 showToast('⚠️ Sync warning: change was saved but the version update failed. Reload to confirm.',true);
@@ -5591,7 +5608,7 @@ finishUpload(new Error('Timeout — network is very slow, please try again'));
 },timeoutMs);
 function finishUpload(err,url){
 if(timeoutId)clearTimeout(timeoutId);
-if(finishUpload._done)return; // ek hi baar chale, chahe timeout aur real response dono aa jayein
+if(finishUpload._done)return;
 finishUpload._done=true;
 PF._uploadInProgress=false;
 if(uploadBtn){uploadBtn.disabled=false;uploadBtn.style.opacity='';}
@@ -5954,7 +5971,7 @@ track.style.transform='translateX(-'+(PF.activeIdx*(100/n))+'%)';
 }
 function updateActiveTabVisual(animate){
 var _ps=document.getElementById('partsScreen');
-if(_ps&&_ps.classList.contains('show'))updateCatBarActive(PART_TYPES[PF.activeIdx].key); // top chip bar sirf Parts screen par sync ho
+if(_ps&&_ps.classList.contains('show'))updateCatBarActive(PART_TYPES[PF.activeIdx].key);
 var tabBar=document.getElementById('pfTabBar');
 if(!tabBar)return;
 var tabs=tabBar.querySelectorAll('.pf-tab');
@@ -5969,7 +5986,7 @@ tabBar.scrollTo({left:target,behavior:'smooth'});
 if(!animate)return;
 var key=PART_TYPES[PF.activeIdx].key;
 el.classList.remove('pulse');
-void el.offsetWidth; // reflow — restart animation har baar
+void el.offsetWidth;
 el.classList.add('pulse');
 var animClass='anim-'+key;
 el.classList.remove(animClass);
@@ -5978,7 +5995,7 @@ el.classList.add(animClass);
 clearTimeout(el._pfAnimTimer);
 var dur=PF_ANIM_MS[key]||500;
 el._pfAnimTimer=setTimeout(function(){el.classList.remove(animClass);},dur+60);
-if(navigator.vibrate)navigator.vibrate(10); // light haptic
+if(navigator.vibrate)navigator.vibrate(10);
 }
 var pfSwipe={startX:0,startY:0,dragging:false,deltaX:0,axis:null};
 function attachSwipeHandlers(){
@@ -6004,7 +6021,7 @@ var dx=t.clientX-pfSwipe.startX,dy=t.clientY-pfSwipe.startY;
 if(pfSwipe.axis===null&&(Math.abs(dx)>6||Math.abs(dy)>6)){
 pfSwipe.axis=Math.abs(dx)>Math.abs(dy)?'x':'y';
 }
-if(pfSwipe.axis==='y')return; // vertical scroll ko priority do
+if(pfSwipe.axis==='y')return;
 e.preventDefault();
 pfSwipe.deltaX=dx;
 var n=PART_TYPES.length;
@@ -6820,7 +6837,7 @@ db.collection('activity_log').where('email','==',u.email).where('type','==','sea
 db.collection('user_stats').doc(uid).get().catch(function(e){usErr2=e;console.error('user_stats read failed:',e);return null;})
 ]).then(function(r){
 var el=document.getElementById('udetContent');
-if(!el)return; // popup closed before data arrived
+if(!el)return;
 var logs=[];if(r[0])r[0].forEach(function(d){logs.push(d.data());});
 if(!logs.length&&ADASH.raw&&ADASH.raw.activity&&u.email){
 var uEmail=u.email.trim().toLowerCase();
@@ -7466,7 +7483,7 @@ checkPendingRequests();
 initTheme();
 initLanguage();
 bindIvSwipe();
-setInterval(pollGlassVersion,120000); // har 2 minute me sirf 1 chhota read
+setInterval(pollGlassVersion,120000);
 loadGlassData();
 document.addEventListener('visibilitychange',function(){
 if(document.visibilityState==='visible'&&db){
@@ -7542,7 +7559,7 @@ box.addEventListener('touchstart',function(e){
 drag=false;
 if(window.innerWidth>=600||box.scrollTop>0||e.touches.length!==1)return;
 var top=box.getBoundingClientRect().top;
-if(e.touches[0].clientY-top>70)return; // sirf upar ke handle/header se
+if(e.touches[0].clientY-top>70)return;
 sy=e.touches[0].clientY;dy=0;drag=true;
 },{passive:true});
 box.addEventListener('touchmove',function(e){
@@ -7657,6 +7674,72 @@ if(room>wrap.offsetHeight+160)hide();
 }else if(acc<-16){show();}
 });
 },{passive:true});
+})();
+</script>
+<script>
+/* Admin: name cleaner + swipe-hint limiter */
+(function(){
+try{var n=+localStorage.getItem('qsHintN')||0;localStorage.setItem('qsHintN',n+1);if(n>=3){var h=document.getElementById('qsSwipeHint');if(h)h.classList.add('hide');}}catch(e){}
+var BR='realme|redmi|poco|vivo|oppo|samsung|oneplus|motorola|moto|infinix|tecno|itel|lava|nokia|iphone|apple|xiaomi|honor|nothing|iqoo|google|lenovo|asus|huawei|sony|micromax';
+var SPLIT=new RegExp('\\s+(?=(?:'+BR+')\\b)','i');
+var W={PRO:'Pro',PLUS:'Plus',MAX:'Max',LITE:'Lite',NOTE:'Note',ULTRA:'Ultra',NEO:'Neo',PRIME:'Prime',POWER:'Power',ACE:'Ace',SPARK:'Spark',CAMON:'Camon',GALAXY:'Galaxy',REALME:'Realme',REDMI:'Redmi',VIVO:'Vivo',OPPO:'Oppo',SAMSUNG:'Samsung',ONEPLUS:'OnePlus',MOTOROLA:'Motorola',MOTO:'Moto',INFINIX:'Infinix',TECNO:'Tecno',ITEL:'itel',LAVA:'Lava',NOKIA:'Nokia',POCO:'POCO',IQOO:'iQOO',IPHONE:'iPhone',XIAOMI:'Xiaomi',HONOR:'Honor',NOTHING:'Nothing',APPLE:'Apple',GOOGLE:'Google'};
+function fix(s){
+s=String(s).replace(/\s+/g,' ').replace(/^[\s,;.\-]+|[\s,;.\-]+$/g,'');
+if(!s)return '';
+var o=(s.match(/\(/g)||[]).length,c=(s.match(/\)/g)||[]).length;
+if(o>c)s+=new Array(o-c+1).join(')');
+s=s.replace(/\s*\(\s*/g,' (').replace(/\s*\)/g,')').replace(/\)(?=[A-Za-z0-9])/g,') ').trim();
+if(!/[a-z]/.test(s)&&/[A-Z]{3}/.test(s))s=s.replace(/[A-Za-z]+/g,function(w){return W[w.toUpperCase()]||w;});
+return s;
+}
+function clean(models){
+var out=[],seen={},ch=[];
+parseModels(models).forEach(function(m){
+var parts=String(m).split(SPLIT).map(fix).filter(Boolean),res=[];
+parts.forEach(function(t){var k=t.toLowerCase().replace(/[^a-z0-9]/g,'');if(seen[k])return;seen[k]=1;out.push(t);res.push(t);});
+if(res.length!==1||res[0]!==m)ch.push([m,res]);
+});
+return {out:out,ch:ch};
+}
+window.admCleanPreview=function(){
+if(!isAdmin())return;
+var jobs=[],rows=[],names=0;
+['flat','uv','display','backcover'].forEach(function(k){
+(S[k]||[]).forEach(function(g){
+var r=clean(g.models);
+if(!r.ch.length)return;
+jobs.push({k:k,id:g.id,old:g.models,models:r.out});
+names+=r.ch.length;
+r.ch.forEach(function(x){if(rows.length<40)rows.push('<div class="cln-row"><s>'+escHtml(x[0])+'</s><br>\u2192 '+(x[1].length?escHtml(x[1].join(' | ')):'<i>duplicate removed</i>')+'</div>');});
+});
+});
+window.__cln=jobs;
+if(!jobs.length){showToast('\u2705 Names are already clean');return;}
+openModal('<div class="mhead"><span class="mtitle">\uD83E\uDDF9 Clean Model Names</span><button class="mclose" onclick="closeModal()" aria-label="Close">\u2715</button></div>'+
+'<p style="color:var(--text-2);font-size:13px"><b>'+names+'</b> names in <b>'+jobs.length+'</b> groups will change. Only spacing, brackets, CAPITALS, duplicates and joined names are fixed. Preview:</p>'+
+'<div class="cln-box">'+rows.join('')+(names>rows.length?'<div class="cln-row">+'+(names-rows.length)+' more</div>':'')+'</div>'+
+'<div class="brow"><button class="bcancel" onclick="closeModal()">Cancel</button><button class="bsave" onclick="admCleanApply()">Apply</button></div>');
+};
+function put(list){
+var keys={};
+list.forEach(function(j){var g=S[j.k].find(function(x){return x.id===j.id;});if(g){g.models=j.models;keys[j.k]=1;}});
+render();setSyncDot('syncing');
+var chunks=[];for(var i=0;i<list.length;i+=400)chunks.push(list.slice(i,i+400));
+return Promise.all(chunks.map(function(ch){var b=db.batch();ch.forEach(function(j){b.update(db.collection(COLLECTIONS[j.k]).doc(j.id),{models:j.models});});return b.commit();})).then(function(){Object.keys(keys).forEach(bumpGlassVersion);setSyncDot('ok');});
+}
+window.admCleanApply=function(){
+var jobs=window.__cln;if(!jobs||!jobs.length||!isAdmin())return;
+window.__clnUndo=jobs.map(function(j){return {k:j.k,id:j.id,models:j.old};});
+closeModal();
+put(jobs).then(function(){
+logAdminAction('\uD83E\uDDF9 Names cleaned in '+jobs.length+' groups');
+openModal('<div class="mhead"><span class="mtitle">\u2705 Done</span><button class="mclose" onclick="closeModal()" aria-label="Close">\u2715</button></div><p style="color:var(--text-2);font-size:13.5px">'+jobs.length+' groups cleaned. Galti lage to abhi Undo kar sakte ho.</p><div class="brow"><button class="bcancel" onclick="admCleanUndo()">Undo</button><button class="bsave" onclick="closeModal()">OK</button></div>');
+}).catch(function(e){setSyncDot('err');showToast('\u274C Failed: '+e.message+' (app refresh karo)',true);});
+};
+window.admCleanUndo=function(){
+var u=window.__clnUndo;if(!u)return;closeModal();
+put(u).then(function(){window.__clnUndo=null;showToast('\u21A9\uFE0F Undo done');}).catch(function(e){setSyncDot('err');showToast('\u274C Undo failed: '+e.message,true);});
+};
 })();
 </script>
 </body>
