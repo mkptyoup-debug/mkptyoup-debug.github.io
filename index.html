@@ -475,26 +475,16 @@ transform:translateY(-2px) scale(1)}
 .all-models{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;max-height:2000px;overflow:hidden;transition:max-height .22s cubic-bezier(.4,0,.2,1)}
 .mtag{line-height:16px;background:var(--surface-1);border:1px solid var(--border-def);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:600;color:var(--text-1);box-shadow:0 2px 6px rgba(120,90,40,.04)}
 .cbtns{display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border-def)}
-.chip-toggle{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:12px;padding:13px 16px;background:linear-gradient(135deg,#DDB46A 0%,#C89A4B 45%,#A87C3C 100%);border:0;border-radius:16px;color:#fff;font-size:13.5px;font-weight:800;letter-spacing:.03em;text-shadow:0 1px 2px rgba(90,60,15,.35);box-shadow:0 8px 20px -6px rgba(168,124,60,.55),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .22s cubic-bezier(.3,1.5,.5,1),box-shadow .25s ease,background .3s ease,color .3s ease;-webkit-tap-highlight-color:transparent}
-.chip-toggle::before{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:ctShine 3.8s ease-in-out infinite;pointer-events:none}
-.chip-toggle::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--rx,50%) var(--ry,50%),rgba(255,255,255,.65) 0,rgba(255,255,255,0) 55%);opacity:0;pointer-events:none}
-.chip-toggle.rip::after{animation:ctRip .6s ease-out}
-.chip-toggle:active{transform:scale(.96);box-shadow:0 3px 8px -4px rgba(168,124,60,.6),inset 0 1px 0 rgba(255,255,255,.3)}
-.chip-toggle .ct-count{min-width:26px;padding:2px 9px;border-radius:20px;background:#fff;color:#A87C3C;text-shadow:none;font-size:12px;font-weight:800;line-height:1.35;text-align:center;box-shadow:0 2px 6px rgba(90,60,15,.25);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
-.chip-toggle .ct-ic{font-size:23px;transition:transform .45s cubic-bezier(.3,1.5,.5,1)}
-.chip-toggle:not(.open) .ct-ic{animation:ctBob 1.7s ease-in-out infinite}
-.chip-toggle.open{background:var(--group-dim);color:var(--brand-2);text-shadow:none;box-shadow:inset 0 0 0 1.5px rgba(200,154,75,.45)}
-.chip-toggle.open::before{display:none}
+.chip-toggle{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:10px;padding:10px 14px;background:var(--surface-2);border:1px solid var(--border-def);border-radius:12px;color:var(--brand-text);font-size:12.5px;font-weight:700;transition:transform .15s}
+.chip-toggle:active{transform:scale(.97)}
+.chip-toggle .ct-count{min-width:24px;padding:1px 8px;border-radius:20px;background:var(--brand-dim);font-size:11.5px;font-weight:800;text-align:center}
+.chip-toggle .ct-ic{font-size:20px;transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
 .chip-toggle.open .ct-ic{transform:rotate(180deg)}
 .chip-toggle.open .ct-count{display:none}
 .chips-pop>*{animation:chipPop .4s cubic-bezier(.2,.9,.3,1.25) both}
-@keyframes ctShine{0%,55%{left:-70%}100%{left:140%}}
-@keyframes ctRip{0%{opacity:.9;transform:scale(.6)}100%{opacity:0;transform:scale(1.8)}}
-@keyframes ctBob{0%,100%{transform:translateY(-1px)}50%{transform:translateY(3px)}}
 @keyframes chipPop{from{opacity:0;transform:translateY(8px) scale(.92)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.chip-toggle::before,.chip-toggle .ct-ic,.chips-pop>*{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.chip-toggle .ct-ic,.chips-pop>*{animation:none!important}}
 .all-models{transition:max-height .45s cubic-bezier(.4,0,.2,1)}
-.all-models.collapsed{-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
 .all-models.collapsed{max-height:63px}
 .cbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 6px;background:var(--surface-1);border:1px solid var(--border-def);border-radius:11px;color:var(--text-2);font-size:12px;font-weight:600;transition:background-color .2s,border-color .2s,color .2s;min-height:40px}
 .cbtn.fav-btn{font-size:16px}
@@ -1088,7 +1078,7 @@ button,.tab,.card,.menu-item,.suggest-item,.fbtn{touch-action:manipulation}
 .stk-lbl{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;color:var(--text-2);letter-spacing:.02em}
 .stk-lbl .material-symbols-rounded{font-size:16px;color:var(--brand-2)}
 .stk-st{font-size:11px;font-weight:700;color:var(--text-3);text-align:right;line-height:1.3}
-.stk-st.in{color:var(--success)}.stk-st.low{color:var(--warning)}.stk-st.out{color:var(--danger)}
+.stk-st.in{color:var(--success)}.stk-st.low,.stk-st.out{color:var(--text-2)}
 .stk-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .stk-b{display:flex;align-items:center;justify-content:center;gap:4px;min-height:40px;padding:6px 4px;border-radius:10px;border:1px solid var(--border-def);background:var(--surface-1);color:var(--text-2);font-size:12px;font-weight:700;transition:background-color .18s,border-color .18s,color .18s,transform .12s;-webkit-tap-highlight-color:transparent}
 .stk-b .material-symbols-rounded{font-size:17px}
@@ -1146,6 +1136,21 @@ button,.tab,.card,.menu-item,.suggest-item,.fbtn{touch-action:manipulation}
 .cln-box{max-height:46vh;overflow:auto;margin:10px 0;font-size:12.5px;line-height:1.5}
 .cln-row{padding:6px 0;border-bottom:1px solid var(--border-hair);word-break:break-word}
 .cln-row s{opacity:.6}
+#resultBanner.found{padding:10px 14px}
+#resultBanner.found .rb-query{display:none}
+.cname-sm{font-size:15px!important}
+.cn-k{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--brand-2);background:rgba(154,110,59,.12);border-radius:7px;padding:1px 7px;margin-right:6px;vertical-align:middle}
+.fb-q{font-size:12px;font-weight:700;color:var(--text-2);margin:2px 0 8px}
+#cardListViewport{padding-bottom:104px}
+#homeChips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:-2px 0 14px;padding:2px 1px}
+#homeChips:empty{display:none}
+.hc{flex:0 0 auto;display:flex;align-items:center;gap:5px;padding:8px 12px;border-radius:20px;border:1px solid var(--border-def);background:var(--surface-1);color:var(--text-1);font-size:12px;font-weight:700;white-space:nowrap}
+.hc .material-symbols-rounded{font-size:16px;color:var(--brand-2)}
+.hc.hot{background:var(--brand-dim);color:var(--brand-text);border-color:#C9A15E55}
+.hp-sub{color:var(--text-2);font-size:13px;margin:0 0 10px}
+.hp-row{display:flex;align-items:center;gap:12px;width:100%;padding:14px;margin-bottom:8px;background:var(--surface-1);border:1px solid var(--border-def);border-radius:12px;color:var(--text-1);font-size:14px;font-weight:700;text-align:left}
+.hp-row .material-symbols-rounded{color:var(--brand-2)}
+.pf2-del{display:block;margin:14px auto 0;padding:8px 12px;background:none;border:0;color:var(--text-3);font-size:11.5px;font-weight:600;text-decoration:underline}
 .stk-ib.del{color:var(--danger)}
 .stk-ib .material-symbols-rounded{font-size:18px}
 .stk-mb:active,.stk-ib:active,.stk-qty button:active{transform:scale(.92)}
@@ -1289,6 +1294,7 @@ Google se Login / Sign Up
 </div>
 <div class="rb-query" id="rbQuery"></div>
 </div>
+<div id="homeChips"></div>
 <div class="adm-wrap" id="admWrap"><button type="button" class="adm-toggle" onclick="this.parentNode.classList.toggle('open')"><span><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">admin_panel_settings</span> Admin Tools</span><span class="material-symbols-rounded">expand_more</span></button><div class="adm-body"><div class="adm-in">
 <div class="toolbar hide" id="toolbarWrap">
 <button class="tbtn" onclick="openCodeModal()"><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">save</span> Data Code</button>
@@ -1314,7 +1320,7 @@ Google se Login / Sign Up
 <div id="menuUserInfo" class="menu-user-info hide" onclick="openProfile()" style="cursor:pointer">
 <div class="menu-user-name" id="menuUserName">—</div>
 <div class="menu-user-email" id="menuUserEmail">—</div>
-<span class="menu-user-role" id="menuUserRole">Staff</span>
+<span class="menu-user-role" id="menuUserRole">Dealer</span>
 <span class="menu-user-premium-badge hide" id="menuUserPremiumBadge"><span class="material-symbols-rounded" style="font-size:11px">workspace_premium</span>Premium</span>
 </div>
 <button class="menu-close-btn" onclick="closeMenu()" aria-label="Close menu"><span class="material-symbols-rounded">close</span></button>
@@ -1328,14 +1334,12 @@ Google se Login / Sign Up
 </div>
 <div class="menu-section">
 <div class="menu-section-label">Requests</div>
-<button class="menu-item" onclick="openRequestForm('display')"><span class="material-symbols-rounded menu-ic">add_photo_alternate</span><span class="menu-item-label">Request Display Update</span></button>
-<button class="menu-item" onclick="openRequestForm('glass')"><span class="material-symbols-rounded menu-ic">smartphone</span><span class="menu-item-label">Request Glass Update</span></button>
+<button class="menu-item" onclick="openRequestChoose()"><span class="material-symbols-rounded menu-ic">add_circle</span><span class="menu-item-label">Request a Model</span></button>
 </div>
 <div class="menu-divider"></div>
 <div class="menu-section">
 <div class="menu-section-label">Personal</div>
 <button class="menu-item" onclick="openFavorites()"><span class="material-symbols-rounded menu-ic">star</span><span class="menu-item-label">My Favorites</span></button>
-<button class="menu-item" onclick="openTrending()"><span class="material-symbols-rounded menu-ic">local_fire_department</span><span class="menu-item-label">Trending Today</span><span class="menu-badge">HOT</span></button>
 <button class="menu-item" onclick="handleExportListClick()"><span class="material-symbols-rounded menu-ic">file_download</span><span class="menu-item-label">Export List (CSV)</span><span class="lock-badge" id="exportLockBadge">🔒 PRO</span></button>
 </div>
 <div class="menu-divider"></div>
@@ -1355,7 +1359,7 @@ Google se Login / Sign Up
 <span class="menu-item-label" data-i18n="menu.language">Language</span>
 <div class="tseg" id="langSeg">
 <button type="button" class="tseg-btn lseg-btn" data-lang-opt="en">EN</button>
-<button type="button" class="tseg-btn lseg-btn" data-lang-opt="hi">हि</button>
+<button type="button" class="tseg-btn lseg-btn" data-lang-opt="hi">हिंदी</button>
 </div>
 </div>
 <button class="menu-item" onclick="shareApp()"><span class="material-symbols-rounded menu-ic">ios_share</span><span class="menu-item-label" data-i18n="menu.shareApp">Share App</span></button>
@@ -1367,11 +1371,8 @@ Google se Login / Sign Up
 <span class="switch-slider"></span>
 </label>
 </div>
-<button class="menu-item" onclick="testNotification()"><span class="material-symbols-rounded menu-ic">notifications_active</span><span class="menu-item-label">Test Notification</span></button>
-<button class="menu-item" onclick="openFeedback()"><span class="material-symbols-rounded menu-ic">chat_bubble</span><span class="menu-item-label">Send Feedback</span></button>
-<button class="menu-item" onclick="openAboutLegal()"><span class="material-symbols-rounded menu-ic">info</span><span class="menu-item-label">About &amp; Legal</span></button>
-<button class="menu-item" onclick="openPrivacyPolicy()"><span class="material-symbols-rounded menu-ic">policy</span><span class="menu-item-label">Privacy Policy</span></button>
-<button class="menu-item" onclick="contactSupport()"><span class="material-symbols-rounded menu-ic">mail</span><span class="menu-item-label">Contact Us</span></button>
+<button class="menu-item hide" id="menuTestNotifBtn" onclick="testNotification()"><span class="material-symbols-rounded menu-ic">notifications_active</span><span class="menu-item-label">Test Notification</span></button>
+<button class="menu-item" onclick="openHelp()"><span class="material-symbols-rounded menu-ic">help</span><span class="menu-item-label">Help &amp; Legal</span></button>
 </div>
 <div class="menu-divider hide" id="adminDivider"></div>
 <div class="menu-section" id="adminSection">
@@ -1393,7 +1394,6 @@ Google se Login / Sign Up
 </div>
 <div class="menu-footer">
 <button class="menu-item hide menu-logout-btn" id="menuLogout" onclick="doLogout()"><span class="material-symbols-rounded menu-ic">logout</span><span class="menu-item-label">Logout</span></button>
-<button class="menu-item hide" id="menuDeleteBtn" onclick="openDeleteAccount()"><span class="material-symbols-rounded menu-ic">delete_forever</span><span class="menu-item-label">Delete My Account</span></button>
 <button class="menu-item hide" id="menuLoginBtn" onclick="closeMenu();showLogin()"><span class="material-symbols-rounded menu-ic">login</span><span class="menu-item-label">Login</span></button>
 <div class="menu-footer-meta"><span id="appVersionTxt">v3.0</span><span>·</span><span>Made with ❤️</span></div>
 </div>
@@ -1847,7 +1847,7 @@ if(!S.user){if(typeof closeMenu==='function')closeMenu();showLogin();return;}
 if(typeof closeMenu==='function')closeMenu();
 var u=S.user,nm=CMT.name||u.displayName||u.email.split('@')[0];
 var pe=S.premium.premiumExpiry?new Date(S.premium.premiumExpiry).getTime():0,te=S.premium.trialEnd?new Date(S.premium.trialEnd).getTime():0,now=Date.now();
-var role=isAdmin()?'Admin':'Staff',planChip;
+var role=isAdmin()?'Admin':'Dealer',planChip;
 if(isAdmin())planChip='<span class="pf2-chip plan"><span class="material-symbols-rounded">verified</span>Full access</span>';
 else if(S.premium.staffFree)planChip='<span class="pf2-chip plan"><span class="material-symbols-rounded">workspace_premium</span>Premium (Staff)</span>';
 else if(isPremiumActive()&&pe>now)planChip='<span class="pf2-chip plan"><span class="material-symbols-rounded">workspace_premium</span>Premium until '+pfDate(pe)+'</span>';
@@ -1867,7 +1867,7 @@ openModal('<div class="mhead"><span class="mtitle">My Profile</span><button clas
 '<div class="fgrp"><label class="flbl">City</label><input class="finp" id="pfCity" maxlength="24" placeholder="e.g. Surat"/></div>'+
 '<div class="fgrp"><label class="flbl">About <span class="pf2-cnt" id="pfBioCnt">0/100</span></label><input class="finp" id="pfBio" maxlength="100" placeholder="A short line about you" oninput="document.getElementById(\'pfBioCnt\').textContent=this.value.length+\'/100\'"/></div>'+
 '<div class="pf2-err" id="pfErr"></div><button class="pf2-save" id="pfSave" onclick="saveProfile()">Save changes</button></div>'+
-'<button class="pf2-out" onclick="closeModal();doLogout()"><span class="material-symbols-rounded" style="font-size:18px">logout</span>Log out</button></div>');
+'<button class="pf2-out" onclick="closeModal();doLogout()"><span class="material-symbols-rounded" style="font-size:18px">logout</span>Log out</button><button class="pf2-del" onclick="openDeleteAccount()">Delete my account</button></div>');
 if(db){
 db.collection('app_users').doc(u.uid).get().then(function(d){
 var x=d.exists?d.data():{},set=function(id,v){var e=document.getElementById(id);if(e&&v)e.value=v;};
@@ -2842,6 +2842,7 @@ var mkey=tabKey+':'+g.id;
 var mine=S.myVotes[mkey];
 var lc=g.likeCount||0,dc=g.dislikeCount||0;
 return '<div class="fb-widget" data-fb="'+mkey+'">'+
+'<div class="fb-q">Was this match correct?</div>'+
 '<div class="fb-row">'+
 '<button type="button" class="fbtn helpful'+(mine==='like'?' is-selected':'')+'" aria-pressed="'+(mine==='like'?'true':'false')+'" aria-label="Like" onclick="fbClick(event,\''+tabKey+'\',\''+g.id+'\',\'like\')">'+
 '<span class="material-symbols-rounded fbtn-ic">thumb_up</span>'+
@@ -2872,7 +2873,9 @@ ripple.style.left=x+'px';ripple.style.top=y+'px';
 btn.appendChild(ripple);
 setTimeout(function(){ripple.remove();},600);
 if(voteType==='like'&&S.user&&!btn.classList.contains('is-selected')){fbBurst(btn);playLikeSound();}
+var _dl=voteType==='dislike'&&S.user&&!btn.classList.contains('is-selected');
 castVote(tabKey,groupId,voteType);
+if(_dl)showToast('Thanks! Tap the comment icon to tell us what was wrong');
 }
 function fbBurst(btn){
 var row=btn.parentNode;if(!row)return;
@@ -3322,7 +3325,7 @@ document.getElementById('menuUserName').textContent=name2;
 document.getElementById('menuUserEmail').textContent=S.user.email;
 var avEl2=document.getElementById('menuUserAvatar');if(avEl2)avEl2.textContent=name2.charAt(0).toUpperCase();
 var roleEl2=document.getElementById('menuUserRole');
-roleEl2.textContent='Staff';roleEl2.className='menu-user-role staff';
+roleEl2.textContent='Dealer';roleEl2.className='menu-user-role staff';
 menuLogout.classList.remove('hide');var _dB=document.getElementById('menuDeleteBtn');if(_dB)_dB.classList.remove('hide');
 menuLoginBtn.classList.add('hide');
 if(menuAnnounceBtn)menuAnnounceBtn.classList.add('hide');
@@ -3512,7 +3515,7 @@ haptic();
 var STK={d:{},loaded:false,filter:'order',warned:false,armed:{}};
 var STK_KEY='ucStock';
 var STK_T={
-en:{lbl:'My Shop',in:'In Stock',low:'Low',out:'Out',stIn:'In stock',stLow:'Low · in order list',stOut:'Out · in order list',stUnset:'Mark your stock',
+en:{lbl:'My Shop',in:'In Stock',low:'Low',out:'Out',stIn:'In stock',stLow:'Low · added to order list',stOut:'Added to order list',stUnset:'Mark your stock',
 title:'My Shop Stock',qtyLbl:'Order qty',pcs:'pcs',tOrder:'To Order',tIn:'In Stock',tAll:'All',
 emptyOrder:'Nothing to order right now.',emptyOrderSub:'Tap Low or Out on any card and it will appear here.',
 emptyIn:'No group marked In Stock yet.',emptyAll:'You have not marked any group yet.',emptyAllSub:'Open any card and tap In Stock, Low or Out.',
@@ -4100,14 +4103,16 @@ var cardClass=isFuzzy?'fuzzy-card':(hasSearch&&matched.length?'match-card':'');
 var noteHtml=g.note?'<div style="font-size:11.5px;color:var(--text-2);margin-top:8px;line-height:1.5;background:rgba(52,42,34,.03);border:1px solid rgba(52,42,34,.06);border-radius:8px;padding:8px 10px">📝 '+escHtml(g.note)+'</div>':'';
 var favTab=g._type||S.tab;
 var typeBadge=S.tab==='glass'?(g._type==='uv'?'<span class="bgp">◐ Curved Glass</span>':'<span class="bg">▭ Flat Glass</span>'):'';
+var sm=!isFuzzy&&hasSearch&&matched.length;
+var headHtml='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px'+(sm?';margin-top:14px':'')+'">'+
+'<div style="flex:1"><div class="cname'+(sm?' cname-sm':'')+'">'+(sm?'<span class="cn-k">Glass code</span>':'<span style="display:inline-block;font-size:10.5px;font-weight:800;color:var(--brand-2);background:rgba(154,110,59,.12);border-radius:7px;padding:1px 7px;margin-right:6px;vertical-align:middle">Group GRPNUM</span>'.replace('GRPNUM',idx+1))+'🛡️ '+escHtml(g.glassName)+'</div>'+
+'<div class="cbadges">'+typeBadge+
+(isFuzzy?'<span class="bgy">🔎 Similar Match</span>':(sm?((!g.confidence||g.confidence==='100')?'<span class="bgg">✓ Verified</span>':''):(!g.confidence||g.confidence==='100'?'<span class="bgg">✓ Verified · '+mlist.length+' Models</span>':'<span class="bg">'+mlist.length+' Models</span>')))+
+((g.confidence&&g.confidence!=='100')?confidenceBadge(g.confidence):'')+
+'</div></div>'+adm+'</div>';
 return '<div class="card '+cardClass+'" style="animation-delay:'+delay+'s">'+
 '<div class="card-accent"></div><div class="card-inner">'+
-'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">'+
-'<div style="flex:1"><div class="cname"><span style="display:inline-block;font-size:10.5px;font-weight:800;color:var(--brand-2);background:rgba(154,110,59,.12);border-radius:7px;padding:1px 7px;margin-right:6px;vertical-align:middle">Group '+(idx+1)+'</span>🛡️ '+escHtml(g.glassName)+'</div>'+
-'<div class="cbadges">'+typeBadge+
-(isFuzzy?'<span class="bgy">🔎 Similar Match</span>':(hasSearch&&matched.length?'<span class="bgg">✓ '+matched.length+' of '+mlist.length+' models matched</span>':(!g.confidence||g.confidence==='100'?'<span class="bgg">✓ Verified · '+mlist.length+' Models</span>':'<span class="bg">'+mlist.length+' Models</span>')))+
-((g.confidence&&g.confidence!=='100')?confidenceBadge(g.confidence):'')+
-'</div></div>'+adm+'</div>'+matchSection+otherTags+noteHtml+
+(sm?matchSection+headHtml:headHtml+matchSection)+otherTags+noteHtml+
 '<div class="cbtns">'+(isAdmin()?'<button class="cbtn" onclick="copyList(\''+g.id+'\')"><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">content_copy</span> Copy Group</button>':'')+
 (isAdmin()?'<button class="cbtn" onclick="shareResult(\''+g.id+'\')"><span class="material-symbols-rounded" style="font-size:1.15em;vertical-align:-3px">ios_share</span> Share</button>':'')+'</div>'+
 stkWidgetHtml(favTab,g)+voteButtonsHtml(favTab,g)+
@@ -6347,6 +6352,7 @@ clearTimeout(window.__menuT);
 var ov=document.getElementById('menuOverlay'),panel=document.getElementById('menuPanel');
 ov.classList.add('show');panel.classList.add('show');
 requestAnimationFrame(function(){ov.classList.add('in');});
+var tn=document.getElementById('menuTestNotifBtn');if(tn)tn.classList.toggle('hide',!isAdmin());
 var items=panel.querySelectorAll('.menu-item:not(.hide),.menu-section-label:not(.hide)');
 items.forEach(function(el,i){el.style.animationDelay=(i*28)+'ms';});
 panel.classList.remove('anim-in');void panel.offsetWidth;panel.classList.add('anim-in');
@@ -7740,6 +7746,24 @@ window.admCleanUndo=function(){
 var u=window.__clnUndo;if(!u)return;closeModal();
 put(u).then(function(){window.__clnUndo=null;showToast('\u21A9\uFE0F Undo done');}).catch(function(e){setSyncDot('err');showToast('\u274C Undo failed: '+e.message,true);});
 };
+})();
+</script>
+<script>
+/* Menu helpers + home chips */
+(function(){
+function row(ic,t,fn){return '<button class="hp-row" onclick="'+fn+'"><span class="material-symbols-rounded">'+ic+'</span>'+t+'</button>';}
+function head(t){return '<div class="mhead"><span class="mtitle">'+t+'</span><button class="mclose" onclick="closeModal()" aria-label="Close">\u2715</button></div>';}
+window.openRequestChoose=function(){closeMenu();openModal(head('Request a Model')+'<p class="hp-sub">Kis cheez ke liye request karni hai?</p>'+row('smartphone','Glass update',"openRequestForm('glass')")+row('add_photo_alternate','Display update',"openRequestForm('display')"));};
+window.openHelp=function(){closeMenu();openModal(head('Help &amp; Legal')+row('chat_bubble','Send Feedback','openFeedback()')+row('mail','Contact Support','contactSupport()')+row('info','About &amp; Legal','openAboutLegal()')+row('policy','Privacy Policy','openPrivacyPolicy()'));};
+window.renderHomeChips=function(){
+var el=document.getElementById('homeChips');if(!el)return;
+if(S.query){el.innerHTML='';return;}
+var h=getSearchHistory().filter(function(x,i,a){var xl=x.toLowerCase();return !a.some(function(y,j){return j<i&&y.toLowerCase().startsWith(xl);});}).slice(0,5);
+el.innerHTML='<button type="button" class="hc hot" onclick="openTrending()"><span class="material-symbols-rounded">local_fire_department</span>Trending</button>'+h.map(function(q){return '<button type="button" class="hc" data-q="'+escHtml(q)+'" onclick="pickHistoryItem(this.dataset.q)"><span class="material-symbols-rounded">history</span>'+escHtml(q)+'</button>';}).join('');
+};
+var _rc=renderCards;
+renderCards=function(){var r=_rc.apply(this,arguments);try{renderHomeChips();}catch(e){}return r;};
+try{renderHomeChips();}catch(e){}
 })();
 </script>
 </body>
