@@ -27,6 +27,17 @@ ul{padding-left:1.2em;margin:.4em 0}li{margin:.25em 0}
 .small{font-size:.9rem;color:var(--mut)}nav a{font-size:.95rem}
 `;
 
+const APP_CSS = `.appbar{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line);z-index:9}
+.appbar a{display:block;text-align:center;background:var(--gold);color:#fff;text-decoration:none;padding:14px;border-radius:12px;font-weight:700;font-size:1.05rem}
+main{padding-bottom:110px}li{cursor:pointer}
+`;
+// Page par kahin bhi tap karo to app khulta hai (links ko chhod kar). Model naam save hota hai taaki app use khoj sake.
+function appScript(model) {
+  const q = JSON.stringify(model || '').replace(/</g, '\\u003c');
+  return `<script>(function(){var A="${SITE}/",Q=${q};function go(){try{if(Q)localStorage.setItem("uc_pending_q",Q)}catch(e){}location.href=A}document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a");if(a&&!a.hasAttribute("data-open"))return;e.preventDefault();go()})})();</script>`;
+}
+const APPBAR = `<div class="appbar"><a href="${SITE}/" data-open>📲 Open in App</a></div>`;
+
 // ---------- helpers ----------
 function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -126,15 +137,15 @@ function pageHtml(g) {
   return `<!doctype html><html lang="en-IN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}"><link rel="canonical" href="${url}">
 <meta name="gid2" content="${esc(g.id)}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><style>
-${CSS}</style></head><body><main>
+${CSS}${APP_CSS}</style></head><body><main>
 <nav><a href="${SITE}/glass-guide.html">All glass groups</a></nav>
 <h1>${esc(first)} tempered glass: compatible models</h1>
 <p class="lead">${esc(lead)}</p>
 <div class="card"><strong>Also compatible with</strong><ul>${g.models.map(m => `<li>${esc(m)}</li>`).join('')}</ul></div>
 <p>Universal Combo helps mobile shops and dealers find compatible tempered glass, back covers, displays, batteries and frames by phone model.</p>
-<a class="btn" href="${SITE}/">Open Universal Combo</a>
-<p class="small">Search any phone model in the app to see the complete verified list.</p>
-</main></body></html>`;
+<a class="btn" href="${SITE}/" data-open>Open in App</a>
+<p class="small">Tap anywhere to open the app and see the complete verified list.</p>
+</main>${APPBAR}${appScript(first)}</body></html>`;
 }
 
 function guideHtml(groups) {
@@ -155,11 +166,11 @@ function guideHtml(groups) {
   return `<!doctype html><html lang="en-IN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}"><link rel="canonical" href="${SITE}/glass-guide.html">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><style>
-${CSS}</style></head><body><main>
+${CSS}${APP_CSS}</style></head><body><main>
 <h1>Tempered glass compatibility guide</h1>
 <p class="lead">Pick a phone to see which other models share the same glass.</p>${body}
-<a class="btn" href="${SITE}/">Open Universal Combo</a>
-</main></body></html>`;
+<a class="btn" href="${SITE}/" data-open>Open in App</a>
+</main>${APPBAR}${appScript('')}</body></html>`;
 }
 
 // ---------- main ----------
