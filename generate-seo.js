@@ -40,7 +40,7 @@ function parseModels(models) {
   const arr = Array.isArray(models) ? models : [models];
   const out = [];
   arr.forEach(m => {
-    String(m).split(',').forEach(seg => {
+    String(m).split(/[,;\n]/).forEach(seg => {
       let depth = 0, cur = '';
       for (const ch of seg) {
         if (ch === '(') depth++;
@@ -50,6 +50,34 @@ function parseModels(models) {
       }
       if (cur.trim()) out.push(cur.trim());
     });
+  });
+  return out;
+}
+
+// ---------- brand normalisation ----------
+// Firestore me kabhi models "Apple", "iPhone 13", "iPhone 13 PRO" jaise alag tukdo me hote hain.
+// Bare brand ("Apple", "Oppo") ko header maan kar aage ke models me brand jodta hai.
+const BRANDS = {};
+['Apple','Realme','Redmi','POCO','Vivo','Oppo','Samsung','OnePlus','Motorola','Moto','Infinix','Tecno','itel','Lava','Nokia','Xiaomi','Honor','Nothing','iQOO','Google','Lenovo','Asus','Huawei','Sony','Micromax'].forEach(b => { BRANDS[b.toLowerCase()] = b; });
+const WORDS = { PRO:'Pro', PLUS:'Plus', MAX:'Max', LITE:'Lite', NOTE:'Note', ULTRA:'Ultra', NEO:'Neo', PRIME:'Prime', POWER:'Power', ACE:'Ace', SPARK:'Spark', CAMON:'Camon', GALAXY:'Galaxy' };
+function tidy(t) {
+  return t.replace(/\s+/g, ' ').trim().split(' ').map(w => { const m = w.match(/^([A-Za-z]+)([^A-Za-z]*)$/); return m && WORDS[m[1]] ? WORDS[m[1]] + m[2] : w; }).join(' ');
+}
+function normalizeModels(list) {
+  const out = [], seen = {};
+  let cur = '';
+  list.forEach(raw => {
+    let t = tidy(raw);
+    if (!t) return;
+    const low = t.toLowerCase();
+    if (BRANDS[low]) { cur = BRANDS[low]; return; }           // bare brand header
+    const firstWord = low.split(' ')[0];
+    if (BRANDS[firstWord]) { cur = BRANDS[firstWord]; t = cur + t.slice(firstWord.length); }
+    else if (firstWord === 'iphone') { cur = 'Apple'; t = 'Apple ' + t; }
+    else if (cur) t = cur + ' ' + t;
+    const k = t.toLowerCase().replace(/[^a-z0-9+]/g, '');
+    if (seen[k]) return;
+    seen[k] = 1; out.push(t);
   });
   return out;
 }
@@ -97,7 +125,7 @@ function pageHtml(g) {
   const url = `${SITE}/${g.file}`;
   return `<!doctype html><html lang="en-IN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}"><link rel="canonical" href="${url}">
-<meta name="gid" content="${esc(g.id)}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><style>
+<meta name="gid2" content="${esc(g.id)}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><style>
 ${CSS}</style></head><body><main>
 <nav><a href="${SITE}/glass-guide.html">All glass groups</a></nav>
 <h1>${esc(first)} tempered glass: compatible models</h1>
@@ -149,18 +177,26 @@ async function main() {
   // Safety: agar data bahut kam aaya to kuch mat badlo (galti se saare pages na ud jaayein)
   if (raw.length < 10) throw new Error(`Sirf ${raw.length} groups mile, rok diya. Rules/network check karo.`);
 
-  const groups = raw
-    .map(d => ({ id: d.id, kind: d.kind, models: parseModels(d.models) }))
+  const all = raw
+    .map(d => ({ id: d.id, kind: d.kind, models: normalizeModels(parseModels(d.models)) }))
     .filter(g => g.models.length > 0)
     .sort((a, b) => a.id.localeCompare(b.id));
+  // Jis group ka pehla naam sirf ek shabd ho (jaise "Apple") uska page nahi banta
+  const bad = all.filter(g => !/\s/.test(g.models[0]));
+  const groups = all.filter(g => /\s/.test(g.models[0]));
+  console.log('Sample data:');
+  groups.slice(0, 4).forEach(g => console.log('  ', g.models.slice(0, 4).join(' | ')));
+  if (bad.length) { console.log(`Skipped ${bad.length} groups (pehla naam adhura):`); bad.slice(0, 8).forEach(g => console.log('  ', g.models.slice(0, 4).join(' | '))); }
+  if (bad.length > all.length * 0.15) throw new Error('Bahut groups ka data ajeeb hai, kuch nahi badla. Upar Sample data dekho.');
 
   // Purane pages se slug yaad rakho (URL na badle): pehle gid meta se, warna model-list match se
   const files = fs.readdirSync(ROOT).filter(f => /^glass-.+\.html$/.test(f) && f !== 'glass-guide.html');
-  const byGid = {}, bySet = {};
+  const byGid = {}, bySet = {}, junk = new Set();
   files.forEach(f => {
     const h = fs.readFileSync(path.join(ROOT, f), 'utf8');
-    const m = h.match(/<meta name="gid" content="([^"]+)"/);
+    const m = h.match(/<meta name="gid2" content="([^"]+)"/);
     if (m) byGid[m[1]] = f;
+    else if (/<meta name="gid" /.test(h)) junk.add(f); // galat purane run ke pages
     else {
       const lis = [...h.matchAll(/<li>([^<]*)<\/li>/g)].map(x => x[1].replace(/&amp;/g, '&'));
       if (lis.length) (bySet[setKey(lis)] = bySet[setKey(lis)] || []).push(f);
@@ -187,6 +223,14 @@ async function main() {
     for (const m of sm.matchAll(/<loc>([^<]+)<\/loc><lastmod>([^<]+)<\/lastmod>/g)) oldMod[m[1]] = m[2];
   } catch (e) {}
 
+  // jin groups ko delete kiya gaya, unke pages hatao (safety limit ke saath)
+  const stale = files.filter(f => !used.has(f));
+  const risky = stale.filter(f => !junk.has(f));
+  const force = ['1', 'true'].includes(String(process.env.FORCE || ''));
+  if (risky.length > Math.max(5, files.length * 0.25) && !force) {
+    throw new Error(`${risky.length} pages delete hone wale the, ye bahut zyada hai. Kuch nahi badla.`);
+  }
+
   const changed = [];
   const write = (file, html) => {
     const p = path.join(ROOT, file);
@@ -195,9 +239,8 @@ async function main() {
   };
   groups.forEach(g => write(g.file, pageHtml(g)));
   write('glass-guide.html', guideHtml(groups));
+  stale.forEach(f => { fs.unlinkSync(path.join(ROOT, f)); changed.push('(deleted) ' + f); });
 
-  // jin groups ko delete kiya gaya, unke pages hatao
-  files.forEach(f => { if (!used.has(f)) { fs.unlinkSync(path.join(ROOT, f)); changed.push('(deleted) ' + f); } });
 
   // sitemap
   const urls = [`${SITE}/`, `${SITE}/glass-guide.html`].concat(groups.map(g => `${SITE}/${g.file}`).sort());
