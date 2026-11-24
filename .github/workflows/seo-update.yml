@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '30 20 * * *'   # roz raat ~2:00 AM India time
   workflow_dispatch:         # manual "Run workflow" button
+    inputs:
+      force:
+        description: 'Bahut saare pages delete karne ki ijazat (normally band rakho)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -17,6 +22,8 @@ jobs:
         with:
           node-version: 20
       - name: Generate SEO pages
+        env:
+          FORCE: ${{ inputs.force }}
         run: node generate-seo.js
       - name: Commit changes
         run: |
