@@ -7798,7 +7798,10 @@ Object.keys(keys).forEach(bumpGlassVersion);render();setSyncDot('ok');logAdminAc
 <!-- ===== Social Follow Popup (Instagram / WhatsApp / Telegram) ===== -->
 <style>
 #socialPop{position:fixed;left:0;right:0;top:0;z-index:8500;display:flex;justify-content:center;padding:calc(10px + env(safe-area-inset-top)) 12px 0;pointer-events:none}
-#socialPop .sp-card{position:relative;width:100%;max-width:410px;overflow:hidden;pointer-events:auto;padding:16px 16px 20px;border-radius:30px;
+#socialPop .sp-scrim{position:fixed;inset:0;background:rgba(24,16,6,.30);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .6s ease}
+#socialPop.show .sp-scrim{opacity:1;pointer-events:auto}
+#socialPop.hide .sp-scrim{opacity:0;transition:opacity .4s ease}
+#socialPop .sp-card{position:relative;width:100%;max-width:410px;overflow:hidden;pointer-events:auto;padding:16px 16px 26px;border-radius:30px;
 background:linear-gradient(145deg,rgba(255,255,255,.74),rgba(255,255,255,.40));
 -webkit-backdrop-filter:blur(28px) saturate(190%);backdrop-filter:blur(28px) saturate(190%);
 border:1px solid rgba(255,255,255,.55);
@@ -7836,6 +7839,9 @@ html[data-theme="dark"] #socialPop .sp-btn{background:rgba(255,255,255,.07);bord
 #socialPop .sp-tg{background:linear-gradient(160deg,#47BDF0,#1B93CC);box-shadow:0 8px 18px rgba(34,158,217,.40),inset 0 1px 0 rgba(255,255,255,.45)}
 #socialPop .sp-btn b{font-size:12.2px;font-weight:700;letter-spacing:-.005em}
 #socialPop .sp-btn small{margin-top:-6px;font-size:10.2px;font-weight:600;color:var(--text-3)}
+#socialPop .sp-share{position:relative;display:flex;align-items:center;justify-content:center;gap:7px;width:100%;margin-top:12px;padding:10px;border:0;border-radius:14px;background:rgba(201,161,94,.14);color:var(--brand-text);font:600 12.5px/1 inherit;font-family:inherit;transition:transform .2s cubic-bezier(.34,1.56,.64,1),background .2s}
+#socialPop .sp-share:active{transform:scale(.96);background:rgba(201,161,94,.26)}
+#socialPop .sp-share .material-symbols-rounded{font-size:18px}
 #socialPop .sp-bar{position:absolute;left:18px;right:18px;bottom:8px;height:2.5px;border-radius:3px;background:rgba(120,100,70,.14);overflow:hidden}
 #socialPop .sp-bar i{display:block;height:100%;width:100%;border-radius:3px;background:linear-gradient(90deg,var(--brand-2),var(--brand-light));transform-origin:left;transform:scaleX(1)}
 #socialPop.show .sp-bar i{animation:spBar 9s linear 1.2s forwards}
@@ -7846,6 +7852,7 @@ html[data-theme="dark"] #socialPop .sp-btn{background:rgba(255,255,255,.07);bord
 @media (prefers-reduced-motion:reduce){#socialPop .sp-card,#socialPop .sp-btn{transition:opacity .3s ease!important;animation:none!important;transform:none!important;filter:none!important}#socialPop.show .sp-btn{opacity:1}#socialPop .sp-card::after{display:none}}
 </style>
 <div id="socialPop" aria-live="polite" style="visibility:hidden">
+<div class="sp-scrim" onclick="closeSocialPop()"></div>
 <div class="sp-card" role="dialog" aria-label="Join our community">
 <div class="sp-glow"></div>
 <div class="sp-head">
@@ -7854,19 +7861,20 @@ html[data-theme="dark"] #socialPop .sp-btn{background:rgba(255,255,255,.07);bord
 <button class="sp-x" type="button" aria-label="Close" onclick="closeSocialPop()">✕</button>
 </div>
 <div class="sp-row">
-<a class="sp-btn" href="https://www.instagram.com/universal_display0" target="_blank" rel="noopener" onclick="spTap();closeSocialPop(900)">
+<a class="sp-btn" data-k="ig" href="https://www.instagram.com/universal_display0" target="_blank" rel="noopener" onclick="spTap('ig');closeSocialPop(900)">
 <span class="sp-ic sp-ig"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="#fff" stroke="none"/></svg></span><b>Instagram</b><small>Follow</small></a>
-<a class="sp-btn" href="https://whatsapp.com/channel/0029VbEhjFZBadmiTlMkIg0O" target="_blank" rel="noopener" onclick="spTap();closeSocialPop(900)">
+<a class="sp-btn" data-k="wa" href="https://whatsapp.com/channel/0029VbEhjFZBadmiTlMkIg0O" target="_blank" rel="noopener" onclick="spTap('wa');closeSocialPop(900)">
 <span class="sp-ic sp-wa"><svg viewBox="0 0 24 24"><path d="M3 21l1.6-4.6A9 9 0 1 1 8 19.6z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M9 8.3c0 3.7 3 6.7 6.7 6.7l1-1.6-2.1-1-1 .8c-1-.4-2-1.4-2.4-2.4l.8-1-1-2.1z" fill="#fff"/></svg></span><b>WhatsApp</b><small>Join channel</small></a>
-<a class="sp-btn" href="https://t.me/Univarsalcombo" target="_blank" rel="noopener" onclick="spTap();closeSocialPop(900)">
+<a class="sp-btn" data-k="tg" href="https://t.me/Univarsalcombo" target="_blank" rel="noopener" onclick="spTap('tg');closeSocialPop(900)">
 <span class="sp-ic sp-tg"><svg viewBox="0 0 24 24"><path d="M21.6 3.6 2.9 10.8c-.9.4-.9 1 0 1.3l4.8 1.5 1.8 5.6c.2.6.4.7.9.7.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.8-.8L23 5.1c.3-1.4-.5-2-1.4-1.5z" fill="#fff"/><path d="m8 13.4 9.6-6-7.3 7.3-.4 3.4z" fill="#C8DAEA"/></svg></span><b>Telegram</b><small>Join channel</small></a>
 </div>
+<button class="sp-share" type="button" onclick="spShare()"><span class="material-symbols-rounded">share</span>Share app with a dealer</button>
 <div class="sp-bar"><i></i></div>
 </div>
 </div>
 <script>
 (function(){
-var KEY='ucSocialLast',COOLDOWN_MS=0,el=document.getElementById('socialPop'); /* 0 = show on every app launch; e.g. 6*3600*1000 = once every 6 hours */
+var KEY='ucSocialLast',COOLDOWN_MS=6*3600*1000,SHARE_URL='https://mkptyoup-debug.github.io/',DONE_KEY='ucSocialDone',el=document.getElementById('socialPop'); /* 0 = every launch; 6*3600*1000 = at most once every 6 hours */
 if(!el)return;
 var card=el.querySelector('.sp-card'),closed=false;
 
@@ -7907,7 +7915,23 @@ bubble(c,t+.19,700,1900,.09,.09);
 chime(c,t+.27,1760,.55,.045);
 chime(c,t+.33,2637,.60,.03);
 }
-window.spTap=function(){
+function done(){try{return JSON.parse(localStorage.getItem(DONE_KEY)||'[]');}catch(e){return[];}}
+function applyTiles(all){
+var d=done(),n=0;
+[].forEach.call(el.querySelectorAll('.sp-btn'),function(b){
+var hide=!all&&d.indexOf(b.getAttribute('data-k'))>-1;
+b.style.display=hide?'none':'';
+if(!hide){b.style.animationDelay=(.42+.12*n)+'s';n++;}
+});
+return n;
+}
+window.spShare=function(){
+var t='Universal Combo - instantly find compatible glass & spare parts for any phone model.\nTry it free: '+SHARE_URL;
+var w=window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank','noopener');
+closeSocialPop(500);
+};
+window.spTap=function(k){
+if(k){try{var d=done();if(d.indexOf(k)<0){d.push(k);localStorage.setItem(DONE_KEY,JSON.stringify(d));}}catch(e){}}
 var c=ctx();if(!c||c.state!=='running')return;
 var t=c.currentTime+.01;
 bubble(c,t,600,1500,.08,.12);
@@ -7924,8 +7948,13 @@ if(box&&!box.querySelector('.sp-row-menu')){
 var b=document.createElement('button');
 b.className='hp-row sp-row-menu';
 b.innerHTML='<span class="material-symbols-rounded">groups</span>Follow us';
-b.onclick=function(){closeModal();setTimeout(openSocialPop,450);};
+b.onclick=function(){closeModal();setTimeout(function(){openSocialPop(true);},450);};
 box.appendChild(b);
+var b2=document.createElement('button');
+b2.className='hp-row sp-row-menu';
+b2.innerHTML='<span class="material-symbols-rounded">share</span>Share app';
+b2.onclick=function(){closeModal();setTimeout(spShare,300);};
+box.appendChild(b2);
 }
 }catch(e){}
 return r;
@@ -7941,7 +7970,8 @@ window.closeSocialPop=function(delay){
 if(closed)return;closed=true;
 setTimeout(function(){el.classList.add('hide');el.classList.remove('show');setTimeout(function(){el.style.display='none';},700);},delay||0);
 };
-window.openSocialPop=function(){
+window.openSocialPop=function(all){
+applyTiles(all===true);
 closed=false;el.classList.remove('hide','show','paused');el.style.display='flex';el.style.visibility='visible';
 void el.offsetWidth;el.classList.add('show');
 var bar=el.querySelector('.sp-bar i');
@@ -7962,7 +7992,7 @@ tries++;
 var login=document.getElementById('loginScreen');
 var loginOpen=login&&getComputedStyle(login).display!=='none';
 if(window.splashDone===true&&!loginOpen){
-setTimeout(function(){if(closed||seen())return;mark();openSocialPop();},1100);return;
+setTimeout(function(){if(closed||seen())return;if(applyTiles(false)===0)return;mark();openSocialPop(false);},1100);return;
 }
 if(tries<120)setTimeout(wait,400);
 })();
