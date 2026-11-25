@@ -1482,8 +1482,8 @@ Google se Login / Sign Up
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.6.2/fuse.min.js"></script>
 <script defer src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-var PLAY_MODE=false;
-try{if(/[?&]src=play(&|$)/.test(location.search)||/^android-app:\/\//.test(document.referrer||''))sessionStorage.setItem('uc_play','1');PLAY_MODE=sessionStorage.getItem('uc_play')==='1';}catch(e){}
+var HIDE_PREMIUM=true;var PLAY_MODE=HIDE_PREMIUM;
+try{if(/[?&]src=play(&|$)/.test(location.search)||/^android-app:\/\//.test(document.referrer||''))sessionStorage.setItem('uc_play','1');PLAY_MODE=HIDE_PREMIUM||sessionStorage.getItem('uc_play')==='1';}catch(e){}
 if(PLAY_MODE)document.documentElement.classList.add('play-mode');
 (function(){
 var headerEl=document.getElementById('header');
