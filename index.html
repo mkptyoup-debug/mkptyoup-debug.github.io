@@ -7866,7 +7866,7 @@ html[data-theme="dark"] #socialPop .sp-btn{background:rgba(255,255,255,.07);bord
 </div>
 <script>
 (function(){
-var KEY='ucSocialShown',el=document.getElementById('socialPop');
+var KEY='ucSocialLast',COOLDOWN_MS=0,el=document.getElementById('socialPop'); /* 0 = show on every app launch; e.g. 6*3600*1000 = once every 6 hours */
 if(!el)return;
 var card=el.querySelector('.sp-card'),closed=false;
 
@@ -7913,15 +7913,36 @@ var t=c.currentTime+.01;
 bubble(c,t,600,1500,.08,.12);
 };
 
+/* ---------- "Follow us" row in Help & Legal menu (re-open anytime) ---------- */
+function addHelpRow(){
+var oh=window.openHelp;if(typeof oh!=='function'||oh.__sp)return;
+var w=function(){
+var r=oh.apply(this,arguments);
+try{
+var box=document.getElementById('modalBox');
+if(box&&!box.querySelector('.sp-row-menu')){
+var b=document.createElement('button');
+b.className='hp-row sp-row-menu';
+b.innerHTML='<span class="material-symbols-rounded">groups</span>Follow us';
+b.onclick=function(){closeModal();setTimeout(openSocialPop,450);};
+box.appendChild(b);
+}
+}catch(e){}
+return r;
+};
+w.__sp=1;window.openHelp=w;
+}
+addHelpRow();setTimeout(addHelpRow,0);window.addEventListener('load',addHelpRow);
+
 /* ---------- Show / hide ---------- */
-function seen(){try{return sessionStorage.getItem(KEY)==='1';}catch(e){return false;}}
-function mark(){try{sessionStorage.setItem(KEY,'1');}catch(e){}}
+function seen(){if(!COOLDOWN_MS)return false;try{return Date.now()-(+localStorage.getItem(KEY)||0)<COOLDOWN_MS;}catch(e){return false;}}
+function mark(){try{localStorage.setItem(KEY,String(Date.now()));}catch(e){}}
 window.closeSocialPop=function(delay){
 if(closed)return;closed=true;
 setTimeout(function(){el.classList.add('hide');el.classList.remove('show');setTimeout(function(){el.style.display='none';},700);},delay||0);
 };
 window.openSocialPop=function(){
-closed=false;el.classList.remove('hide');el.style.display='flex';el.style.visibility='visible';
+closed=false;el.classList.remove('hide','show','paused');el.style.display='flex';el.style.visibility='visible';
 void el.offsetWidth;el.classList.add('show');
 var bar=el.querySelector('.sp-bar i');
 bar.onanimationend=function(){closeSocialPop();};
