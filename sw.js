@@ -14,43 +14,55 @@ firebase.initializeApp({
 firebase.messaging();
 // ────────────────────────────────────────────────────────────────────
 
-const CACHE_NAME = 'universal-combo-v2';
-const urlsToCache = [
-  './',
-  './index.html',
-  './manifest.json'
-];
+// Version badalte hi purana cache apne aap hat jata hai
+const CACHE_NAME = 'universal-combo-v3';
+const urlsToCache = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', function(event) {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-      return cache.addAll(urlsToCache).catch(function(err) {
-        console.log('Cache add error (non-fatal):', err);
-      });
+      return cache.addAll(urlsToCache.map(function(u){ return new Request(u, {cache: 'reload'}); }))
+        .catch(function(err) { console.log('Cache add error (non-fatal):', err); });
     })
   );
 });
 
 self.addEventListener('activate', function(event) {
   event.waitUntil(
-    caches.keys().then(function(cacheNames) {
-      return Promise.all(
-        cacheNames.map(function(cacheName) {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+    caches.keys().then(function(names) {
+      return Promise.all(names.map(function(n) {
+        if (n !== CACHE_NAME) return caches.delete(n);
+      }));
+    }).then(function() { return self.clients.claim(); })
   );
-  self.clients.claim();
 });
 
+self.addEventListener('message', function(event) {
+  if (event.data === 'SKIP_WAITING') self.skipWaiting();
+});
+
+// Network pehle (browser ka purana HTTP cache bypass), net na ho tab hi cache
 self.addEventListener('fetch', function(event) {
+  var req = event.request;
+  if (req.method !== 'GET') return;
+  var url = new URL(req.url);
+  if (url.origin !== self.location.origin) return;
+
+  var isPage = req.mode === 'navigate' || /\.html$|\/$/.test(url.pathname);
+  var netReq = isPage ? new Request(req, {cache: 'no-store'}) : req;
+
   event.respondWith(
-    fetch(event.request).catch(function() {
-      return caches.match(event.request);
+    fetch(netReq).then(function(res) {
+      if (res && res.ok) {
+        var copy = res.clone();
+        caches.open(CACHE_NAME).then(function(c) { c.put(req, copy); });
+      }
+      return res;
+    }).catch(function() {
+      return caches.match(req).then(function(hit) {
+        return hit || caches.match('./index.html');
+      });
     })
   );
 });
