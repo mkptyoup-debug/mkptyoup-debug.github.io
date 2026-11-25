@@ -7520,14 +7520,16 @@ deferredPrompt.prompt();await deferredPrompt.userChoice;
 deferredPrompt=null;document.getElementById('installBtn').style.display='none';
 });
 if('serviceWorker' in navigator){
-navigator.serviceWorker.register('./sw.js')
+navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'})
 .then(function(reg){
 setTimeout(checkNotifStatus,1000);
+setInterval(function(){reg.update();},1800000);document.addEventListener('visibilitychange',function(){if(!document.hidden)reg.update();});
 reg.addEventListener('updatefound',function(){
 var nw=reg.installing;
 if(!nw)return;
 nw.addEventListener('statechange',function(){
 if(nw.state==='installed'&&navigator.serviceWorker.controller){
+var _ae=document.activeElement;if(!(_ae&&/INPUT|TEXTAREA|SELECT/.test(_ae.tagName))){nw.postMessage('SKIP_WAITING');return;}
 showToast('🔄 New version available — tap to refresh');
 var refreshBar=document.createElement('button');
 refreshBar.textContent=(currentLang==='hi'?'नया वर्शन उपलब्ध — रीफ्रेश करें':'New version available — tap to refresh');
